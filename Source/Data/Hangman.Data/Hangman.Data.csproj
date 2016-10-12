@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="FormattedDbEntityValidationException.cs" />
     <Compile Include="Migrations\201602100916387_InitialCreate.cs" />
     <Compile Include="Migrations\201602100916387_InitialCreate.Designer.cs">
       <DependentUpon>201602100916387_InitialCreate.cs</DependentUpon>

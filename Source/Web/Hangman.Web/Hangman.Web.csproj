@@ -243,6 +243,11 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\hangman\1.png" />
+    <Content Include="Content\images\hangman\2.png" />
+    <Content Include="Content\images\hangman\3.png" />
+    <Content Include="Content\images\hangman\4.png" />
+    <Content Include="Content\images\hangman\5.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

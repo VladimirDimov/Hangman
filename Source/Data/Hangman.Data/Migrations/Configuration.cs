@@ -1,11 +1,12 @@
 ﻿namespace Hangman.Data.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using Hangman.Common;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
+    using MvcTemplate.Data.Models;
     public sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
@@ -16,26 +17,50 @@
 
         protected override void Seed(ApplicationDbContext context)
         {
-            const string AdministratorUserName = "admin@admin.com";
-            const string AdministratorPassword = AdministratorUserName;
+            this.SeedCategoriesWithWords(context);
+            this.SeedUsers(context);
+        }
 
-            if (!context.Roles.Any())
+        private void SeedUsers(ApplicationDbContext context)
+        {
+            var userStore = new UserStore<User>(context);
+            var userManager = new UserManager<User>(userStore);
+
+            for (int i = 1; i <= 10; i++)
             {
-                // Create admin role
-                var roleStore = new RoleStore<IdentityRole>(context);
-                var roleManager = new RoleManager<IdentityRole>(roleStore);
-                var role = new IdentityRole { Name = GlobalConstants.AdministratorRoleName };
-                roleManager.Create(role);
+                var email = $"user{i}@site.com";
+                var user = new User
+                {
+                    Email = email,
+                    UserName = email,
+                    PasswordHash = new PasswordHasher().HashPassword("email"),
+                    SecurityStamp = Guid.NewGuid().ToString()
+                };
 
-                // Create admin user
-                var userStore = new UserStore<User>(context);
-                var userManager = new UserManager<User>(userStore);
-                var user = new User { UserName = AdministratorUserName, Email = AdministratorUserName };
-                userManager.Create(user, AdministratorPassword);
-
-                // Assign user to admin role
-                userManager.AddToRole(user.Id, GlobalConstants.AdministratorRoleName);
+                userManager.Create<User, string>(user);
             }
+
+            context.SaveChanges();
+        }
+
+        private void SeedCategoriesWithWords(ApplicationDbContext context)
+        {
+            if (context.Categories.Any())
+            {
+                return;
+            }
+
+            var animalsCategory = new Category { Name = "Animals" };
+            animalsCategory.Words.Add(new Word { Content = "Tiger", Description = "A big cat who lives in Asia." });
+            animalsCategory.Words.Add(new Word { Content = "Elephant", Description = "Animal with long trunk." });
+            context.Categories.Add(animalsCategory);
+
+            var townsCategory = new Category { Name = "Towns" };
+            townsCategory.Words.Add(new Word { Content = "Stara Zagora", Description = "A town in Bulgaria." });
+            townsCategory.Words.Add(new Word { Content = "Berlin", Description = "A town in Germany" });
+            context.Categories.Add(townsCategory);
+
+            context.SaveChanges();
         }
     }
 }
