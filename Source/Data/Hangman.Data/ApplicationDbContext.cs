@@ -7,8 +7,8 @@
     using Common.Models;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
-    using MvcTemplate.Data;
-    using MvcTemplate.Data.Models;
+    using Hangman.Data;
+    using Hangman.Data.Models;
 
     public class ApplicationDbContext : IdentityDbContext<User>
     {

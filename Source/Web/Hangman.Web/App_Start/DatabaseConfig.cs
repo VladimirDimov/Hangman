@@ -1,4 +1,4 @@
-﻿namespace MvcTemplate.Web.App_Start
+﻿namespace Hangman.Web.App_Start
 {
     using System.Data.Entity;
     using Hangman.Data;

@@ -1,4 +1,4 @@
-﻿namespace MvcTemplate.Data
+﻿namespace Hangman.Data
 {
     using System;
     using System.Data.Entity.Validation;

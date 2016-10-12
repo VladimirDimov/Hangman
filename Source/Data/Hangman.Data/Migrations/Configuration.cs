@@ -6,7 +6,7 @@
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
-    using MvcTemplate.Data.Models;
+
     public sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
@@ -23,8 +23,14 @@
 
         private void SeedUsers(ApplicationDbContext context)
         {
+            if (context.Users.Any())
+            {
+                return;
+            }
+
             var userStore = new UserStore<User>(context);
             var userManager = new UserManager<User>(userStore);
+            var hasher = new PasswordHasher();
 
             for (int i = 1; i <= 10; i++)
             {
@@ -33,11 +39,11 @@
                 {
                     Email = email,
                     UserName = email,
-                    PasswordHash = new PasswordHasher().HashPassword("email"),
+                    PasswordHash = hasher.HashPassword("123456"),
                     SecurityStamp = Guid.NewGuid().ToString()
                 };
 
-                userManager.Create<User, string>(user);
+                context.Users.Add(user);
             }
 
             context.SaveChanges();

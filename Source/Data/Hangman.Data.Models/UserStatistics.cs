@@ -1,4 +1,4 @@
-﻿namespace MvcTemplate.Data.Models
+﻿namespace Hangman.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
     using Hangman.Data.Models;

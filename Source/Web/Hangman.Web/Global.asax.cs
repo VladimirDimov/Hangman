@@ -11,7 +11,7 @@
     using Data.Migrations;
 
     using Infrastructure.Mapping;
-    using MvcTemplate.Web.App_Start;
+    using Hangman.Web.App_Start;
 
 #pragma warning disable SA1649 // File name must match first type name
 
@@ -23,7 +23,6 @@
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
 
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
             DatabaseConfig.Initialize();
             AutofacConfig.RegisterAutofac();
             AreaRegistration.RegisterAllAreas();
