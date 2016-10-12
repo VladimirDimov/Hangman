@@ -1,6 +1,7 @@
 ﻿namespace Hangman.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
     using Hangman.Services.Data.Contracts;
@@ -69,12 +70,23 @@
             var model = new NewGameViewModel
             {
                 NumberOfErrors = 0,
-                OpenedPositions = game.FirstPlayer.OpenedPositions.ToList()
+                OpenedPositions = game.Owner.OpenedPositions.ToList()
             };
 
             this.Response.Cookies.Add(new System.Web.HttpCookie("CurrentGameId", gameId));
 
             return this.View("Play", model);
+        }
+
+        [HttpPost]
+        public ActionResult MakeGuess(IEnumerable<MakeGuessRequestViewModel> guesses)
+        {
+            var gameId = this.Request.Cookies["CurrentGameId"].Value;
+            var playerId = this.User.Identity.GetUserId();
+            var activeGamesManager = new ActiveGamesManager();
+            var updatedPlayer = activeGamesManager.MakeGuess(gameId, playerId, guesses, false);
+
+            return this.Json(updatedPlayer);
         }
     }
 }

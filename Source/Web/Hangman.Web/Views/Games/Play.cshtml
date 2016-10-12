@@ -62,10 +62,11 @@
             }
 
             $.ajax({
-                url: '/games/guess',
+                url: '/games/makeGuess',
+                method: 'post',
                 data: { guesses: guesses },
                 success: function (data) {
-                    
+                    debugger;
                 }
             });
         });

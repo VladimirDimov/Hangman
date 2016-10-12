@@ -8,8 +8,12 @@ namespace Hangman.Web.ActiveGames
 
         public bool IsMultiplayer { get; set; }
 
-        public ActiveGamePlayerModel FirstPlayer { get; set; }
+        public IEnumerable<ActiveGamePlayerModel> Players { get; set; }
 
-        public ActiveGamePlayerModel SecondPlayer { get; set; }
+        public ActiveGamePlayerModel Owner { get; set; }
+
+        //public ActiveGamePlayerModel FirstPlayer { get; set; }
+
+        //public ActiveGamePlayerModel SecondPlayer { get; set; }
     }
 }
