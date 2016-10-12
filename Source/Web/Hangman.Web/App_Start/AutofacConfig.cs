@@ -11,6 +11,7 @@
 
     using Data;
     using Data.Common;
+    using MvcTemplate.Services.Data.Contracts;
     using Services.Web;
 
     public static class AutofacConfig
@@ -67,8 +68,8 @@
                 .As<IIdentifierProvider>()
                 .InstancePerRequest();
 
-            //var servicesAssembly = Assembly.GetAssembly(typeof(IJokesService));
-            //builder.RegisterAssemblyTypes(servicesAssembly).AsImplementedInterfaces();
+            var servicesAssembly = Assembly.GetAssembly(typeof(IBaseService<,>));
+            builder.RegisterAssemblyTypes(servicesAssembly).AsImplementedInterfaces();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .AssignableTo<BaseController>().PropertiesAutowired();

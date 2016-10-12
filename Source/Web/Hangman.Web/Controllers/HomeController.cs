@@ -23,5 +23,15 @@
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
+
+        public ActionResult SinglePlayer()
+        {
+            return this.View("SinglePlayer");
+        }
+
+        public ActionResult MultiPlayer()
+        {
+            return this.View("MultiPlayer");
+        }
     }
 }

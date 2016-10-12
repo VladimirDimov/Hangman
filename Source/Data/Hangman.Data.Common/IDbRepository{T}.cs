@@ -9,11 +9,19 @@
     {
     }
 
-    public interface IDbRepository<T, in TKey> : IDbGenericRepository<T, TKey>
+    public interface IDbRepository<T, in TKey>
         where T : BaseModel<TKey>
     {
-        IQueryable<T> AllWithDeleted();
+        IQueryable<T> All();
+
+        T GetById(int id);
+
+        void Add(T entity);
+
+        void Delete(T entity);
 
         void HardDelete(T entity);
+
+        IQueryable<T> AllWithDeleted();
     }
 }
