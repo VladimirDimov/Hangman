@@ -1,4 +1,4 @@
-﻿namespace MvcTemplate.Services.Data.Contracts
+﻿namespace Hangman.Services.Data.Contracts
 {
     using System.Linq;
     using Hangman.Data.Common;

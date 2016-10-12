@@ -1,4 +1,4 @@
-﻿namespace MvcTemplate.Services.Data
+﻿namespace Hangman.Services.Data
 {
     using Contracts;
     using Hangman.Data.Common;

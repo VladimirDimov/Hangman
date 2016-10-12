@@ -11,7 +11,7 @@
 
     using Data;
     using Data.Common;
-    using MvcTemplate.Services.Data.Contracts;
+    using Hangman.Services.Data.Contracts;
     using Services.Web;
 
     public static class AutofacConfig

@@ -1,0 +1,73 @@
+﻿@model Hangman.Web.ViewModels.Games.NewGameViewModel
+@{
+    ViewBag.Title = "Play";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var numberOfLetters = Model.OpenedPositions.Count();
+    var initialImageUrl = "/Content/images/hangman/" + Model.NumberOfErrors + ".png";
+}
+
+<h2>Play</h2>
+
+<div id="hangman-image">
+    <img src="@initialImageUrl" alt="No Image" />
+</div>
+
+<div id="wordContainer">
+    @for (int i = 0; i < numberOfLetters; i++)
+    {
+        var letter = Model.OpenedPositions[i];
+
+        if (letter == '\0')
+        {
+            <span class="hiddenLetter" data-index="@i">_</span>
+        }
+        else if (letter != '*')
+        {
+            <span>@letter</span>
+        }
+        else
+        {
+            <span>&nbsp;</span>
+        }
+
+    }
+</div>
+
+<button id="btnGuess">Guess</button>
+
+@section Scripts {
+    <script>
+        $('#wordContainer').on('click', '.hiddenLetter', function () {
+            var $this = $(this);
+            if ($this.find('input').length != 0) {
+                return;
+            }
+            $this.empty();
+            var $input = $('<input type="text">');
+            $input.attr('maxlength', 1);
+            $input.addClass('letterInput');
+            $this.append($input);
+            $input.focus();
+        });
+
+        $('#btnGuess').on('click', function () {
+            var allHiddenLettersContainers = $('.hiddenLetter');
+            var guessLetters = allHiddenLettersContainers.find('input');
+            var guesses = [];
+            for (var i = 0; i < guessLetters.length; i++) {
+                var currentGuess = guessLetters[i].value;
+                if (currentGuess != '') {
+                    guesses.push({ index: $(guessLetters[i]).parent().attr('data-index'), letter: $(guessLetters[i]).val() });
+                }
+            }
+
+            $.ajax({
+                url: '/games/guess',
+                data: { guesses: guesses },
+                success: function (data) {
+                    
+                }
+            });
+        });
+    </script>
+}

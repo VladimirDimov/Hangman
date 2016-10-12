@@ -1,4 +1,4 @@
-﻿namespace MvcTemplate.Services.Data
+﻿namespace Hangman.Services.Data
 {
     using System.Linq;
     using Contracts;
@@ -8,8 +8,8 @@
     public class BaseService<T> : BaseService<T, int>
         where T : BaseModel<int>
     {
-        public BaseService(IDbRepository<T, int> categoriesRepository)
-            : base(categoriesRepository)
+        public BaseService(IDbRepository<T, int> repository)
+            : base(repository)
         {
         }
     }

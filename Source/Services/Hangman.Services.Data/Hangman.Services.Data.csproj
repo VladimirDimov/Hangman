@@ -7,8 +7,8 @@
     <ProjectGuid>{90FE4C4D-122A-406D-8A40-79C561FB8184}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MvcTemplate.Services.Data</RootNamespace>
-    <AssemblyName>MvcTemplate.Services.Data</AssemblyName>
+    <RootNamespace>Hangman.Services.Data</RootNamespace>
+    <AssemblyName>Hangman.Services.Data</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -47,8 +47,10 @@
     <Compile Include="contracts\ICategoriesService.cs" />
     <Compile Include="contracts\IUsersService.cs" />
     <Compile Include="contracts\IBaseService.cs" />
+    <Compile Include="contracts\IWordsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsersService.cs" />
+    <Compile Include="WordsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

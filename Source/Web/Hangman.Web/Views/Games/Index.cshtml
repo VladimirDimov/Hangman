@@ -1,0 +1,12 @@
+﻿@model Hangman.Web.ViewModels.Games.Index.IndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm("StartGame", "Games", FormMethod.Get))
+{
+    @Html.DropDownListFor(m => m.CategoryId, Model.Categories)
+    @Html.EnumDropDownListFor(m => m.GameType)
+
+    <input type="submit" value="Start" />
+}

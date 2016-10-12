@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MvcTemplate.Web</RootNamespace>
-    <AssemblyName>MvcTemplate.Web</AssemblyName>
+    <RootNamespace>Hangman.Web</RootNamespace>
+    <AssemblyName>Hangman.Web</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -196,6 +196,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveGames\ActiveGameModel.cs" />
+    <Compile Include="ActiveGames\ActiveGamePlayerModel.cs" />
+    <Compile Include="ActiveGames\ActiveGamesManager.cs" />
     <Compile Include="App_Start\ApplicationSignInManager.cs" />
     <Compile Include="App_Start\ApplicationUserManager.cs" />
     <Compile Include="App_Start\AutofacConfig.cs" />
@@ -210,6 +213,7 @@
     <Compile Include="Areas\Administration\Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="App_Start\GlimpseSecurityPolicy.cs" />
@@ -227,6 +231,12 @@
     <Compile Include="ViewModels\Account\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\Account\SendCodeViewModel.cs" />
     <Compile Include="ViewModels\Account\VerifyCodeViewModel.cs" />
+    <Compile Include="ViewModels\Games\Index\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\Games\Index\GamesIndexViewModel.cs" />
+    <Compile Include="ViewModels\Games\GameType.cs" />
+    <Compile Include="ViewModels\Games\Index\IndexViewModel.cs" />
+    <Compile Include="ViewModels\Games\NewGameViewModel.cs" />
+    <Compile Include="ViewModels\Games\StartGameRequestViewModel.cs" />
     <Compile Include="ViewModels\Manage\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\Manage\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\Manage\FactorViewModel.cs" />
@@ -311,6 +321,8 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Games\Index.cshtml" />
+    <Content Include="Views\Games\Play.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

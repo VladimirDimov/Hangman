@@ -7,8 +7,7 @@
             <ul class="nav navbar-nav">
                 @if (this.User.Identity.IsAuthenticated)
                 {
-                    <li>@Html.ActionLink("Single Player", "SinglePlayer", "Home", new { area = string.Empty }, null)</li>
-                    <li>@Html.ActionLink("Multi Player", "MultiPlayer", "Home", new { area = string.Empty }, null)</li>
+                    <li>@Html.ActionLink("NewGame", "Index", "Games", new { area = string.Empty }, null)</li>
                 }
             </ul>
             @Html.Partial("_LoginPartial")
