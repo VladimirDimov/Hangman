@@ -8,8 +8,8 @@
     public class BaseService<T> : BaseService<T, int>
         where T : BaseModel<int>
     {
-        public BaseService(IDbRepository<T> categoriesRepository)
-            : base((IDbRepository<T, int>)categoriesRepository)
+        public BaseService(IDbRepository<T, int> categoriesRepository)
+            : base(categoriesRepository)
         {
         }
     }

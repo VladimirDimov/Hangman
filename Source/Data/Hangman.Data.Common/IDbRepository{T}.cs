@@ -4,7 +4,7 @@
 
     using Hangman.Data.Common.Models;
 
-    public interface IDbRepository<T>
+    public interface IDbRepository<T> : IDbRepository<T, int>
         where T : BaseModel<int>
     {
     }
@@ -14,7 +14,9 @@
     {
         IQueryable<T> All();
 
-        T GetById(int id);
+        IQueryable<T> AllWithDeleted();
+
+        T GetById(TKey id);
 
         void Add(T entity);
 
@@ -22,6 +24,6 @@
 
         void HardDelete(T entity);
 
-        IQueryable<T> AllWithDeleted();
+        void Save();
     }
 }

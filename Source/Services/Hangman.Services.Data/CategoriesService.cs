@@ -6,7 +6,7 @@
 
     public class CategoriesService : BaseService<Category>, ICategoriesService
     {
-        public CategoriesService(IDbRepository<Category> categoriesRepository)
+        public CategoriesService(IDbRepository<Category, int> categoriesRepository)
             : base(categoriesRepository)
         {
         }

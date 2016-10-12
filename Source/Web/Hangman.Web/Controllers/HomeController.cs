@@ -1,14 +1,18 @@
 ﻿namespace Hangman.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Net;
     using System.Web.Mvc;
     using Hubs;
-
+    using MvcTemplate.Services.Data.Contracts;
     public class HomeController : BaseController
     {
-        public HomeController()
+        private ICategoriesService categoriesService;
+
+        public HomeController(ICategoriesService categoriesService)
         {
+            this.categoriesService = categoriesService;
         }
 
         public ActionResult Index()
@@ -26,7 +30,9 @@
 
         public ActionResult SinglePlayer()
         {
-            return this.View("SinglePlayer");
+            var categories = this.categoriesService.All().ToList();
+
+            return new HttpStatusCodeResult(200);
         }
 
         public ActionResult MultiPlayer()
