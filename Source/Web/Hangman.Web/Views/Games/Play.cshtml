@@ -19,15 +19,15 @@
 
         if (letter == '\0')
         {
-            <span class="hiddenLetter" data-index="@i">_</span>
+            <span class="hiddenLetter letter" data-index="@i">_</span>
         }
         else if (letter != '*')
         {
-            <span>@letter</span>
+            <span class="letter">@letter</span>
         }
         else
         {
-            <span>&nbsp;</span>
+            <span class="letter">&nbsp;</span>
         }
 
     }
@@ -45,7 +45,7 @@
             $this.empty();
             var $input = $('<input type="text">');
             $input.attr('maxlength', 1);
-            $input.addClass('letterInput');
+            $input.addClass('letterInput letter');
             $this.append($input);
             $input.focus();
         });
@@ -66,9 +66,47 @@
                 method: 'post',
                 data: { guesses: guesses },
                 success: function (data) {
-                    debugger;
+                    updateImage(data.NumberOfErrors);
+                    updateWordContainer(data.OpenedPositions);
                 }
             });
         });
+
+        function updateWordContainer(positions) {
+            var $wordContainer = $('#wordContainer');
+            $wordContainer.empty();
+            for (var i = 0, length = positions.length; i < length; i += 1) {
+                var currentLetter = positions[i];
+                if (!currentLetter) {
+                    var $hidden = $('<span>');
+                    $hidden.attr('data-index', i);
+                    $hidden.html(' _ ');
+                    $hidden.addClass('hiddenLetter letter');
+                    $wordContainer.append($hidden);
+                } else if (currentLetter != '*') {
+                    var $letter = $('<span>');
+                    $letter.html(currentLetter);
+                    $letter.addClass('letter');
+                    $wordContainer.append($letter);
+                } else {
+                    var $space = $('<span>');
+                    $space.html('&nbsp;');
+                    $space.addClass('letter');
+                    $wordContainer.append($space);
+                }
+            }
+        }
+
+        function getHidden() {
+            var $hidden = $('<span>');
+        }
+
+        function updateImage(numberOfErrors) {
+            $('#hangman-image img').attr('src', getImageUrl(numberOfErrors));
+        }
+
+        function getImageUrl(numberOfErrors) {
+            return "/Content/images/hangman/" + numberOfErrors + ".png";
+        }
     </script>
 }
