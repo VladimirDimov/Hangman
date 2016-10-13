@@ -65,12 +65,21 @@
             {
                 NumberOfErrors = 0,
                 OpenedPositions = game.Owner.OpenedPositions.ToList(),
-                IsMultiplayer = game.IsMultiplayer
+                IsMultiplayer = game.IsMultiplayer,
+                GameId = gameId
             };
 
             this.Response.Cookies.Add(new System.Web.HttpCookie("CurrentGameId", gameId));
 
             return this.View("Play", responseModel);
+        }
+
+        public ActionResult GetCurrentStatus(string gameId)
+        {
+            var activeGamesManager = new ActiveGamesManager();
+            var game = activeGamesManager[gameId];
+
+            return this.Json(game, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AvailableGames()
@@ -97,7 +106,8 @@
             {
                 NumberOfErrors = 0,
                 OpenedPositions = game.Owner.OpenedPositions.ToList(),
-                IsMultiplayer = game.IsMultiplayer
+                IsMultiplayer = game.IsMultiplayer,
+                GameId = gameId
             };
 
             this.Response.Cookies.Add(new System.Web.HttpCookie("CurrentGameId", gameId));

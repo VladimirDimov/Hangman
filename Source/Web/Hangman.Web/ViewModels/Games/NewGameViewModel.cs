@@ -9,5 +9,7 @@
         public int NumberOfErrors { get; set; }
 
         public bool IsMultiplayer { get; set; }
+
+        public string GameId { get; set; }
     }
 }
