@@ -95,7 +95,7 @@
         public ActionResult Join(string gameId)
         {
             var gamesManager = new ActiveGamesManager();
-            gamesManager.JoinGame(gameId, this.User.Identity.GetUserId());
+            gamesManager.JoinGame(gameId, this.User.Identity.GetUserId(), this.User.Identity.Name);
 
             var notifier = new Notifier();
             var game = gamesManager[gameId];

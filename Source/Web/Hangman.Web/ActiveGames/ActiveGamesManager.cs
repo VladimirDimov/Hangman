@@ -58,7 +58,9 @@
             {
                 Id = userId,
                 NumberOfErrors = 0,
-                OpenedPositions = GetInitialOpenedPositions(word)
+                OpenedPositions = GetInitialOpenedPositions(word),
+                Name = username,
+                NumberOfGuesses = 0
             };
 
             var players = new List<ActiveGamePlayerModel>()
@@ -133,7 +135,7 @@
             return player;
         }
 
-        public void JoinGame(string gameId, string playerId)
+        public void JoinGame(string gameId, string playerId, string playerName)
         {
             var game = this[gameId];
             if (game.Players.Any(u => u.Id == playerId))
@@ -146,7 +148,8 @@
                 Id = playerId,
                 NumberOfErrors = 0,
                 NumberOfGuesses = 0,
-                OpenedPositions = GetInitialOpenedPositions(game.Word)
+                OpenedPositions = GetInitialOpenedPositions(game.Word),
+                Name = playerName
             });
         }
 

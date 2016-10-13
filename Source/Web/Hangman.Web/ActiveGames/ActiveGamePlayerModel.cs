@@ -6,6 +6,8 @@
     {
         public string Id { get; set; }
 
+        public string Name { get; set; }
+
         public IEnumerable<char> OpenedPositions { get; set; }
 
         public int NumberOfErrors { get; set; }

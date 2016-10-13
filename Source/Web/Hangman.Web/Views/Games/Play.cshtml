@@ -38,7 +38,9 @@
 {
     <div>
         <h2 class="waitingForOpponent">Waiting for opponent</h2>
+        <div id="oponentsInfo">
 
+        </div>
     </div>
 }
 
@@ -82,11 +84,27 @@
         function updateGameValues() {
             $.ajax({
                 url: '/games/GetCurrentStatus',
-                data: {gameId: '@Model.GameId'},
-                success: function(data) {
-                    debugger;
+                data: { gameId: '@Model.GameId' },
+                success: function (data) {
+                    var currentPlayer = getPlayerInfoFromGameInfo(data);
+                    updateWordContainer(currentPlayer.OpenedPositions);
+                    upateWaitingForOponent(data);
+                    updateOponentsStatus(data);
                 }
             });
+        }
+
+        function getPlayerInfoFromGameInfo(data) {
+            var currentPlayerId = '@this.User.Identity.GetUserId()';
+            var players = data.Players;
+            for (var i = 0, length = data.Players.length; i < length; i++) {
+                var player = data.Players[i];
+                if (player.Id == currentPlayerId) {
+                    return player;
+                }
+            }
+
+            return null;
         }
 
         function renderInputLetter(container) {
@@ -124,6 +142,52 @@
                 }
             });
         });
+
+        function upateWaitingForOponent(data) {
+            if (data.Players.length > 1) {
+                $('.waitingForOpponent').hide();
+            } else {
+                $('.waitingForOpponent').show();
+            }
+        }
+
+        function updateOponentsStatus(data) {
+            var oponents = getOponents(data.Players);
+            var $container = $('#oponentsInfo');
+            $container.empty();
+            for (var i = 0, length = oponents.length; i < length; i++) {
+                var currentOponent = oponents[i];
+                var $currentOponentTable = $('<table>');
+                var $currentOponentTBody = $('<tbody>');
+                var $currentOponentRow = $('<row>');
+
+                $currentOponentTable.append($currentOponentTBody);
+                $currentOponentTBody.append($currentOponentRow);
+
+                var $nameTd = $('<td>').html(currentOponent.Name);
+                var $errorsTd = $('<td>').html(currentOponent.NumberOfErrors);
+                var guessesTd = $('<td>').html(currentOponent.NumberOfGuesses);
+
+                $currentOponentRow.append($nameTd);
+                $currentOponentRow.append($errorsTd);
+                $currentOponentRow.append(guessesTd);
+
+                $container.append($currentOponentTable);
+            }
+        }
+
+        function getOponents(players) {
+            var oponents = [],
+                thisPlayerId = '@this.User.Identity.GetUserId()';
+
+            for (var i = 0, length = players.length; i < length; i++) {
+                if (players[i].Id != thisPlayerId) {
+                    oponents.push(players[i]);
+                }
+            }
+
+            return oponents;
+        }
 
         function updateWordContainer(positions) {
             var $wordContainer = $('#wordContainer');
