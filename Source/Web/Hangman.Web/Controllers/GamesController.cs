@@ -90,16 +90,28 @@
             var activeGamesManager = new ActiveGamesManager();
             var updatedPlayer = activeGamesManager.MakeGuess(gameId, playerId, guesses, false);
             var game = activeGamesManager[gameId];
+
             if (game.GameStatus == GameStatus.HasWinner || game.GameStatus == GameStatus.Closed)
             {
                 this.statisticsService.UpdateUserStatistics(playerId, playerId == game.WinnerId, updatedPlayer.NumberOfErrors, updatedPlayer.NumberOfGuesses);
             }
+            else if (updatedPlayer.NumberOfErrors == 5)
+            {
+                this.statisticsService.UpdateUserStatistics(playerId, playerId == game.WinnerId, updatedPlayer.NumberOfErrors, updatedPlayer.NumberOfGuesses);
+            }
+
+            var gameStatus = game.GameStatus;
+            var gameWinnerId = game.WinnerId;
+            if (game.GameStatus == GameStatus.Closed || game.GameStatus == GameStatus.HasWinner)
+            {
+                activeGamesManager.RemoveGame(gameId);
+            }
 
             return this.Json(new
             {
-                updatedPlayer,
-                game.GameStatus,
-                game.WinnerId
+                updatedPlayer = updatedPlayer,
+                gameStatus = gameStatus,
+                winnerId = gameWinnerId
             });
         }
     }

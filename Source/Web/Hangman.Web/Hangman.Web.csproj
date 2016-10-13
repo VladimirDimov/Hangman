@@ -239,6 +239,8 @@
     <Compile Include="ViewModels\Games\MakeGuessRequestViewModel.cs" />
     <Compile Include="ViewModels\Games\NewGameViewModel.cs" />
     <Compile Include="ViewModels\Games\StartGameRequestViewModel.cs" />
+    <Compile Include="ViewModels\Home\HomeViewModel.cs" />
+    <Compile Include="ViewModels\Home\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\Manage\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\Manage\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\Manage\FactorViewModel.cs" />
@@ -343,7 +345,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Administration\Models\" />
     <Folder Include="Areas\Administration\Views\Shared\" />
-    <Folder Include="ViewModels\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

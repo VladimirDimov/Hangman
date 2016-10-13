@@ -29,11 +29,10 @@
         {
             <span class="letter">&nbsp;</span>
         }
-
     }
 </div>
 
-<button id="btnGuess">Guess</button>
+<button id="btnGuess" class="btn btn-primary">Guess</button>
 
 @section Scripts {
     <script>
@@ -43,7 +42,7 @@
                 return;
             }
             $this.empty();
-            var $input = $('<input type="text">');
+            var $input = $('<input type="text" pattern="[A-Za-z]{1}">');
             $input.attr('maxlength', 1);
             $input.addClass('letterInput letter');
             $this.append($input);
@@ -100,8 +99,8 @@
 
         function updateGameState(data) {
             var imageFleName;
-            if (data.WinnerId) {
-                if (data.WinnerId == '@User.Identity.GetUserId()') {
+            if (data.winnerId) {
+                if (data.winnerId == '@User.Identity.GetUserId()') {
                     imageFleName = 'win';
                 } else {
                     imageFleName = 'loose';

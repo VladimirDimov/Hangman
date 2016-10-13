@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Common;
     using ViewModels.Games;
 
     public class ActiveGamesManager
@@ -74,6 +75,11 @@
             return gameId;
         }
 
+        public void RemoveGame(string gameId)
+        {
+            activeGames.Remove(gameId);
+        }
+
         public ActiveGamePlayerModel MakeGuess(string gameId, string playerId, IEnumerable<MakeGuessRequestViewModel> guesses, bool guessAll)
         {
             if (!activeGames.ContainsKey(gameId))
@@ -124,6 +130,21 @@
             {
                 game.GameStatus = GameStatus.HasWinner;
                 game.WinnerId = player.Id;
+            }
+            else if (player.NumberOfErrors == GlobalConstants.MaxNumberOfErrors)
+            {
+                if (!game.IsMultiplayer)
+                {
+                    game.GameStatus = GameStatus.Closed;
+                }
+                else if (game.Players.Count() == 2)
+                {
+                    var winner = game.Players.First(p => p.Id != player.Id);
+                    game.WinnerId = winner.Id;
+                    game.GameStatus = GameStatus.HasWinner;
+
+                    // TODO: Signal other competitors
+                }
             }
         }
 
