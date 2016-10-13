@@ -7,5 +7,7 @@
         public List<char> OpenedPositions { get; set; }
 
         public int NumberOfErrors { get; set; }
+
+        public bool IsMultiplayer { get; set; }
     }
 }

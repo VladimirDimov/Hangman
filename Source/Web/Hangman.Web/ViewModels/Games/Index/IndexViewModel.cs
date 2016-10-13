@@ -11,6 +11,7 @@
         [Display(Name = "Game Type")]
         public GameType GameType { get; set; }
 
+        [Display(Name = "Game Name")]
         public string GameName { get; set; }
 
         [Display(Name = "Category")]

@@ -19,10 +19,18 @@
             }
         }
 
+        public Dictionary<string, ActiveGameModel> Games
+        {
+            get
+            {
+                return activeGames;
+            }
+        }
+
         /// <summary>
         /// Creates a game and returns game ID
         /// </summary>
-        public string CreateGame(string word, string userId, string username, bool isMultiplayer)
+        public string CreateGame(string word, string userId, string username, bool isMultiplayer, string gameName)
         {
             var playerExistingGame = activeGames.FirstOrDefault(g => g.Value.Players.Any(p => p.Id == userId));
 
@@ -39,7 +47,7 @@
                     else
                     {
                         // leave the game if the user doesn't own it
-                        playerExistingGame.Value.Players = playerExistingGame.Value.Players.Where(p => p.Id != userId);
+                        playerExistingGame.Value.Players = playerExistingGame.Value.Players.Where(p => p.Id != userId).ToList();
                     }
                 }
             }
@@ -68,7 +76,8 @@
                     Owner = players.First(),
                     IsMultiplayer = isMultiplayer,
                     Word = word.ToLower(),
-                    GameStatus = isMultiplayer ? GameStatus.WaitingForOpponent : GameStatus.Active
+                    GameStatus = isMultiplayer ? GameStatus.WaitingForOpponent : GameStatus.Active,
+                    GameName = gameName
                 });
             }
 
@@ -122,6 +131,23 @@
             this.OpenPositions(player, game, positionsToOpen);
             this.UpdateGameStatus(player, game);
             return player;
+        }
+
+        public void JoinGame(string gameId, string playerId)
+        {
+            var game = this[gameId];
+            if (game.Players.Any(u => u.Id == playerId))
+            {
+                return;
+            }
+
+            this[gameId].Players.Add(new ActiveGamePlayerModel
+            {
+                Id = playerId,
+                NumberOfErrors = 0,
+                NumberOfGuesses = 0,
+                OpenedPositions = GetInitialOpenedPositions(game.Word)
+            });
         }
 
         private void UpdateGameStatus(ActiveGamePlayerModel player, ActiveGameModel game)

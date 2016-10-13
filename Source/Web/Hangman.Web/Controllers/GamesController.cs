@@ -6,6 +6,7 @@
     using System.Web.Mvc;
     using Hangman.Services.Data.Contracts;
     using Hangman.Web.ActiveGames;
+    using Hubs;
     using Microsoft.AspNet.Identity;
     using ViewModels.Games;
     using ViewModels.Games.Index;
@@ -48,38 +49,60 @@
                 return this.View(model);
             }
 
-            if (model.GameType == GameType.SinglePlayer)
-            {
-                return this.RedirectToAction(nameof(this.SinglePlayer), new { categoryId = model.CategoryId });
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public ActionResult SinglePlayer(int categoryId)
-        {
-            var word = this.wordsService.GetRandomFromCategory(categoryId);
+            var word = this.wordsService.GetRandomFromCategory(model.CategoryId);
             var activeGamesManager = new ActiveGamesManager();
 
             var gameId = activeGamesManager.CreateGame(
-                                                            word,
-                                                            this.User.Identity.GetUserId(),
-                                                            this.User.Identity.Name,
-                                                            false);
+                                                        word,
+                                                        this.User.Identity.GetUserId(),
+                                                        this.User.Identity.Name,
+                                                        model.GameType == GameType.MultiPlayer,
+                                                        model.GameName);
 
             var game = activeGamesManager[gameId];
 
-            var model = new NewGameViewModel
+            var responseModel = new NewGameViewModel
             {
                 NumberOfErrors = 0,
-                OpenedPositions = game.Owner.OpenedPositions.ToList()
+                OpenedPositions = game.Owner.OpenedPositions.ToList(),
+                IsMultiplayer = game.IsMultiplayer
             };
 
             this.Response.Cookies.Add(new System.Web.HttpCookie("CurrentGameId", gameId));
 
-            return this.View("Play", model);
+            return this.View("Play", responseModel);
+        }
+
+        public ActionResult AvailableGames()
+        {
+            var gamesManager = new ActiveGamesManager();
+            var activeGames = gamesManager.Games
+                .Where(x => x.Value.IsMultiplayer)
+                .Select(x => new JoinGameViewModel { Id = x.Key, Name = x.Value.GameName });
+
+            return this.View("Join", activeGames);
+        }
+
+        public ActionResult Join(string gameId)
+        {
+            var gamesManager = new ActiveGamesManager();
+            gamesManager.JoinGame(gameId, this.User.Identity.GetUserId());
+
+            var notifier = new Notifier();
+            var game = gamesManager[gameId];
+            var playerIds = game.Players.Select(p => p.Id).ToArray();
+            notifier.UpdateGame(playerIds);
+
+            var responseModel = new NewGameViewModel
+            {
+                NumberOfErrors = 0,
+                OpenedPositions = game.Owner.OpenedPositions.ToList(),
+                IsMultiplayer = game.IsMultiplayer
+            };
+
+            this.Response.Cookies.Add(new System.Web.HttpCookie("CurrentGameId", gameId));
+
+            return this.View("Play", responseModel);
         }
 
         [HttpPost]

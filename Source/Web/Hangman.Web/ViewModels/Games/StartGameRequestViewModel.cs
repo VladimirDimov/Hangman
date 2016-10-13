@@ -9,5 +9,8 @@ namespace Hangman.Web.ViewModels.Games
 
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
+
+        [Display(Name = "Game Name")]
+        public string GameName { get; set; }
     }
 }

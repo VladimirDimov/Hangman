@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Hangman.Web.ViewModels.Games.JoinGameViewModel>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Game</th>
+            <th>Join</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model)
+        {
+            <tr>
+                <td>@game.Name</td>
+                <td>@Html.ActionLink("Join", "Join", new { gameId = game.Id })</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+
+}

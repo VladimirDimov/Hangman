@@ -8,8 +8,24 @@
     <br />
     <div class="col-md-6 col-md-offset-3">
         @Html.EditorFor(m => m.CategoryId, "Dropdown", new { data = Model.Categories, @class = "form-control" })
+        @Html.EditorFor(m => m.GameName, "String", new { @class = "form-control disabled", disabled = "disabled" })
         @Html.EditorFor(m => m.GameType, "Enum", new { data = Model.Categories, @class = "form-control" })
 
         <input type="submit" value="Start" class="btn btn-default" />
     </div>
+}
+
+@section Scripts {
+    <script>
+        $('[name="GameName"]').attr('disabled', true);
+
+        $('[name=GameType]').on('change', function () {
+            var $this = $(this);
+            if ($this.val() == "MultiPlayer") {
+                $('[name="GameName"]').attr('disabled', false);
+            } else {
+                $('[name="GameName"]').attr('disabled', true);
+            }
+        })
+    </script>
 }

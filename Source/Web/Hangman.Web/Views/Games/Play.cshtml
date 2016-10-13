@@ -34,6 +34,14 @@
 
 <button id="btnGuess" class="btn btn-primary">Guess</button>
 
+@if (Model.IsMultiplayer)
+{
+    <div>
+        <h2 class="waitingForOpponent">Waiting for opponent</h2>
+
+    </div>
+}
+
 @section Scripts {
     <script>
         $('#wordContainer').on('click', '.hiddenLetter', function () {
