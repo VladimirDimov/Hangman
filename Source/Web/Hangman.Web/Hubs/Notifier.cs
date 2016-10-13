@@ -1,17 +1,14 @@
 ﻿namespace Hangman.Web.Hubs
 {
-    using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Common;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.SignalR;
 
     public class Notifier : Hub
     {
         private static object usersLocker = new object();
-        private static ConcurrentDictionary<string, string> users = new ConcurrentDictionary<string, string>();
+        private static Dictionary<string, string> users = new Dictionary<string, string>();
 
         public void UpdateGame(IList<string> userIds)
         {
@@ -46,11 +43,9 @@
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            string x = null;
-            var counter = GlobalConstants.ThreadSafeNumberOfTryouts;
-            while (!users.TryRemove(this.Context.User.Identity.GetUserId(), out x) || counter > 0)
+            lock (usersLocker)
             {
-                counter--;
+                users.Remove(this.Context.User.Identity.GetUserId());
             }
 
             return base.OnDisconnected(stopCalled);
@@ -60,10 +55,9 @@
         {
             if (!users.ContainsKey(userId))
             {
-                var counter = GlobalConstants.ThreadSafeNumberOfTryouts;
-                while (!users.TryAdd(userId, connectionId) || counter > 0)
+                lock (usersLocker)
                 {
-                    counter--;
+                    users.Add(userId, connectionId);
                 }
             }
         }

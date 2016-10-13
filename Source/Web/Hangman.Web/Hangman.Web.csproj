@@ -243,6 +243,7 @@
     <Compile Include="ViewModels\Games\JoinGameViewModel.cs" />
     <Compile Include="ViewModels\Games\MakeGuessRequestViewModel.cs" />
     <Compile Include="ViewModels\Games\NewGameViewModel.cs" />
+    <Compile Include="ViewModels\Games\RequiredIfAttribute.cs" />
     <Compile Include="ViewModels\Games\StartGameRequestViewModel.cs" />
     <Compile Include="ViewModels\Home\HomeViewModel.cs" />
     <Compile Include="ViewModels\Home\StatisticsViewModel.cs" />

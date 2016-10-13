@@ -57,7 +57,7 @@
                                                         this.User.Identity.GetUserId(),
                                                         this.User.Identity.Name,
                                                         model.GameType == GameType.MultiPlayer,
-                                                        model.GameName);
+                                                        model.GameName ?? $"Unknown {new Random().Next(100, 10000)}");
 
             var game = activeGamesManager[gameId];
 
