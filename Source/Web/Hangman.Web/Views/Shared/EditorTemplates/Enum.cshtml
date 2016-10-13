@@ -1,0 +1,18 @@
+﻿@model Enum
+
+@{
+
+    var values = Enum.GetValues(ViewData.ModelMetadata.ModelType).Cast<object>()
+                     .Select(v => new SelectListItem
+                     {
+                         Selected = v.Equals(Model),
+                         Text = v.ToString(),
+                         Value = v.ToString()
+                     });
+}
+
+<div class="form-group">
+    @Html.LabelFor(m => m, new { @class = "control-label" })
+    @Html.DropDownList("", values, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model, null, new { @class = "text-danger" })
+</div>

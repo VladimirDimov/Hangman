@@ -66,7 +66,7 @@
                 method: 'post',
                 data: { guesses: guesses },
                 success: function (data) {
-                    updateImage(data.updatedPlayer.NumberOfErrors);
+                    //updateImage(data.updatedPlayer.NumberOfErrors);
                     updateWordContainer(data.updatedPlayer.OpenedPositions);
                     updateGameState(data);
                 }
@@ -99,19 +99,41 @@
         }
 
         function updateGameState(data) {
+            var imageFleName;
+            if (data.WinnerId) {
+                if (data.WinnerId == '@User.Identity.GetUserId()') {
+                    imageFleName = 'win';
+                } else {
+                    imageFleName = 'loose';
+                }
 
+                setGameStateToInactive();
+            } else {
+                imageFleName = data.updatedPlayer.NumberOfErrors;
+
+                if (data.updatedPlayer.NumberOfErrors == 5) {
+                    imageFleName = 'loose';
+                    setGameStateToInactive();
+                }
+            }
+
+            updateImage(imageFleName);
+        }
+
+        function setGameStateToInactive() {
+            $('#btnGuess').prop('disabled', true);
         }
 
         function getHidden() {
             var $hidden = $('<span>');
         }
 
-        function updateImage(numberOfErrors) {
-            $('#hangman-image img').attr('src', getImageUrl(numberOfErrors));
+        function updateImage(imageName) {
+            $('#hangman-image img').attr('src', getImageUrl(imageName));
         }
 
-        function getImageUrl(numberOfErrors) {
-            return "/Content/images/hangman/" + numberOfErrors + ".png";
+        function getImageUrl(imageName) {
+            return "/Content/images/hangman/" + imageName + ".png";
         }
     </script>
 }

@@ -3,10 +3,13 @@
     ViewBag.Title = "Index";
 }
 
-@using (Html.BeginForm("StartGame", "Games", FormMethod.Get))
+@using (Html.BeginForm("StartGame", "Games", FormMethod.Get, new { @class = "row" }))
 {
-    @Html.DropDownListFor(m => m.CategoryId, Model.Categories)
-    @Html.EnumDropDownListFor(m => m.GameType)
+    <br />
+    <div class="col-md-6 col-md-offset-3">
+        @Html.EditorFor(m => m.CategoryId, "Dropdown", new { data = Model.Categories, @class = "form-control" })
+        @Html.EditorFor(m => m.GameType, "Enum", new { data = Model.Categories, @class = "form-control" })
 
-    <input type="submit" value="Start" />
+        <input type="submit" value="Start" class="btn btn-default" />
+    </div>
 }

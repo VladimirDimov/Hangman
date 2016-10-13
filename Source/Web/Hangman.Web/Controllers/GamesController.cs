@@ -10,6 +10,7 @@
     using ViewModels.Games;
     using ViewModels.Games.Index;
 
+    [Authorize]
     public class GamesController : Controller
     {
         private ICategoriesService categoriesService;
