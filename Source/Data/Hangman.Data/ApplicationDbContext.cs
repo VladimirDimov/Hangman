@@ -46,8 +46,8 @@
                 .HasKey(us => us.UserId);
 
             modelBuilder.Entity<User>()
-                .HasOptional(u => u.UserStatistics)
-                .WithRequired(us => us.User);
+                .HasRequired(u => u.UserStatistics)
+                .WithRequiredPrincipal(us => us.User);
 
             base.OnModelCreating(modelBuilder);
         }

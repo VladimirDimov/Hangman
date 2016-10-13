@@ -16,6 +16,6 @@
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public HashSet<Word> Words { get; private set; }
+        public virtual ICollection<Word> Words { get; private set; }
     }
 }

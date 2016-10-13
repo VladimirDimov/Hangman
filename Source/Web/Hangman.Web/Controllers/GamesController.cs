@@ -15,13 +15,16 @@
     {
         private ICategoriesService categoriesService;
         private IWordsService wordsService;
+        private IStatisticsService statisticsService;
 
         public GamesController(
             ICategoriesService categoriesService,
-            IWordsService wordsService)
+            IWordsService wordsService,
+            IStatisticsService statisticsService)
         {
             this.categoriesService = categoriesService;
             this.wordsService = wordsService;
+            this.statisticsService = statisticsService;
         }
 
         public ActionResult Index()
@@ -86,12 +89,17 @@
             var playerId = this.User.Identity.GetUserId();
             var activeGamesManager = new ActiveGamesManager();
             var updatedPlayer = activeGamesManager.MakeGuess(gameId, playerId, guesses, false);
+            var game = activeGamesManager[gameId];
+            if (game.GameStatus == GameStatus.HasWinner || game.GameStatus == GameStatus.Closed)
+            {
+                this.statisticsService.UpdateUserStatistics(playerId, playerId == game.WinnerId, updatedPlayer.NumberOfErrors, updatedPlayer.NumberOfGuesses);
+            }
 
             return this.Json(new
             {
                 updatedPlayer,
-                activeGamesManager[gameId].GameStatus,
-                activeGamesManager[gameId].WinnerId
+                game.GameStatus,
+                game.WinnerId
             });
         }
     }

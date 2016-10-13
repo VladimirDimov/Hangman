@@ -88,6 +88,8 @@
                 throw new ArgumentException("User is not in the game");
             }
 
+            player.NumberOfGuesses++;
+
             var positionsToOpen = new Queue<int>();
             foreach (var guess in guesses)
             {

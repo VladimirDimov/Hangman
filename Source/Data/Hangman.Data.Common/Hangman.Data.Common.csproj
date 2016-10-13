@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDbGenericRepository.cs" />
+    <Compile Include="DbGenericRepository.cs" />
     <Compile Include="DbRepository{T}.cs" />
     <Compile Include="IDbRepository{T}.cs" />
     <Compile Include="Models\BaseModel{TKey}.cs" />

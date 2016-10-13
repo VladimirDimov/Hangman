@@ -17,7 +17,7 @@
     public class BaseService<T, TKey> : IBaseService<T, TKey>
         where T : BaseModel<TKey>
     {
-        private IDbRepository<T, TKey> categoriesRepository;
+        private readonly IDbRepository<T, TKey> categoriesRepository;
 
         public BaseService(IDbRepository<T, TKey> categoriesRepository)
         {

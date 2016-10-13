@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Hangman.Web.ActiveGames
+﻿namespace Hangman.Web.ActiveGames
 {
+    using System.Collections.Generic;
+
     public class ActiveGamePlayerModel
     {
         public string Id { get; set; }
@@ -9,5 +9,7 @@ namespace Hangman.Web.ActiveGames
         public IEnumerable<char> OpenedPositions { get; set; }
 
         public int NumberOfErrors { get; set; }
+
+        public int NumberOfGuesses { get; set; }
     }
 }

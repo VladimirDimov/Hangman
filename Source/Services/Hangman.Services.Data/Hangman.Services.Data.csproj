@@ -48,7 +48,9 @@
     <Compile Include="contracts\IUsersService.cs" />
     <Compile Include="contracts\IBaseService.cs" />
     <Compile Include="contracts\IWordsService.cs" />
+    <Compile Include="contracts\IStatisticsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatisticsService.cs" />
     <Compile Include="UsersService.cs" />
     <Compile Include="WordsService.cs" />
   </ItemGroup>

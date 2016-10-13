@@ -1,10 +1,15 @@
 ﻿namespace Hangman.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
-    using Hangman.Data.Models;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class UserStatistics
     {
+        [Key]
+        public string UserId { get; set; }
+
+        public virtual User User { get; set; }
+
         public int NumberOfGuesses { get; set; }
 
         public int NumberOfSuccessfulGuesses { get; set; }
@@ -16,10 +21,5 @@
         public int NumberOfGamesWon { get; set; }
 
         public int NumberOfGamesLost { get; set; }
-
-        [Required]
-        public string UserId { get; set; }
-
-        public User User { get; set; }
     }
 }

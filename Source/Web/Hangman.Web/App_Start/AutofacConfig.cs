@@ -61,6 +61,9 @@
                 .As(typeof(IDbRepository<,>))
                 .InstancePerRequest();
 
+            builder.RegisterGeneric(typeof(DbGenericRepository<,>))
+                .As(typeof(IDbGenericRepository<,>))
+                .InstancePerRequest();
         }
 
         private static void RegisterServices(ContainerBuilder builder)
