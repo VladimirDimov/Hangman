@@ -98,7 +98,7 @@
                     updateWordContainer(currentPlayer.OpenedPositions);
                     upateWaitingForOponent(data);
                     updateOponentsStatus(data);
-                    updateGameStatus(data);
+                    updateGameState(data);
                 }
             });
         }
@@ -157,12 +157,6 @@
                 $('.waitingForOpponent').hide();
             } else {
                 $('.waitingForOpponent').show();
-            }
-        }
-
-        function updateGameStatus(data) {
-            if (data.GameStatus == 3) {
-                $('')
             }
         }
 

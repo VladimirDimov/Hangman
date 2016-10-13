@@ -135,10 +135,6 @@
 
             var gameStatus = game.GameStatus;
             var gameWinnerId = game.WinnerId;
-            if (game.GameStatus == GameStatus.Closed || game.GameStatus == GameStatus.HasWinner)
-            {
-                activeGamesManager.RemoveGame(gameId);
-            }
 
             var notifier = new Notifier();
             notifier.UpdateGame(game.Players.Select(x => x.Id).ToArray());

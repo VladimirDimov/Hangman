@@ -79,6 +79,7 @@
                 gameId,
                 new ActiveGameModel
                 {
+                    GameId = Guid.NewGuid().ToString(),
                     Players = players,
                     Owner = players.First(),
                     IsMultiplayer = isMultiplayer,

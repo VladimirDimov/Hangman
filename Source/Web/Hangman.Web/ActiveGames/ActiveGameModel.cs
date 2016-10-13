@@ -17,5 +17,7 @@ namespace Hangman.Web.ActiveGames
         public string WinnerId { get; set; }
 
         public GameStatus GameStatus { get; set; }
+
+        public string GameId { get; set; }
     }
 }
