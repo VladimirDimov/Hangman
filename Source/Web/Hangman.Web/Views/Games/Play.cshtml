@@ -32,7 +32,38 @@
     }
 </div>
 
-<button id="btnGuess" class="btn btn-primary">Guess</button>
+<div class="container">
+    <div class="btn-toolbar">
+        <div class="btn-group btn-group-sm" id="alphabet">
+            <button class="btn btn-default letterButton">A</button>
+            <button class="btn btn-default letterButton">B</button>
+            <button class="btn btn-default letterButton">C</button>
+            <button class="btn btn-default letterButton">D</button>
+            <button class="btn btn-default letterButton">E</button>
+            <button class="btn btn-default letterButton">F</button>
+            <button class="btn btn-default letterButton">G</button>
+            <button class="btn btn-default letterButton">H</button>
+            <button class="btn btn-default letterButton">I</button>
+            <button class="btn btn-default letterButton">J</button>
+            <button class="btn btn-default letterButton">K</button>
+            <button class="btn btn-default letterButton">L</button>
+            <button class="btn btn-default letterButton">M</button>
+            <button class="btn btn-default letterButton">N</button>
+            <button class="btn btn-default letterButton">O</button>
+            <button class="btn btn-default letterButton">P</button>
+            <button class="btn btn-default letterButton">Q</button>
+            <button class="btn btn-default letterButton">R</button>
+            <button class="btn btn-default letterButton">S</button>
+            <button class="btn btn-default letterButton">T</button>
+            <button class="btn btn-default letterButton">U</button>
+            <button class="btn btn-default letterButton">V</button>
+            <button class="btn btn-default letterButton">W</button>
+            <button class="btn btn-default letterButton">X</button>
+            <button class="btn btn-default letterButton">Y</button>
+            <button class="btn btn-default letterButton">Z</button>
+        </div>
+    </div>
+</div>
 
 @if (Model.IsMultiplayer)
 {
@@ -113,34 +144,13 @@
             return null;
         }
 
-        function renderInputLetter(container) {
-            container.empty();
-            var $input = $('<input type="text" pattern="[A-Za-z]{1}">');
-            $input.attr('maxlength', 1);
-            $input.addClass('letterInput letter');
-            container.append($input);
-            $input.focus();
-        }
-
-        $('#btnGuess').on('click', function () {
-            var allHiddenLettersContainers = $('.hiddenLetter');
-            var guessLetters = allHiddenLettersContainers.find('input');
-            var guesses = [];
-            for (var i = 0; i < guessLetters.length; i++) {
-                var currentGuess = guessLetters[i].value;
-                if (currentGuess != '') {
-                    guesses.push({ index: $(guessLetters[i]).parent().attr('data-index'), letter: $(guessLetters[i]).val() });
-                }
-            }
-
-            if (guesses.length == 0) {
-                return;
-            }
+        $('.letterButton').on('click', function () {
+            var guess = $(this).html();
 
             $.ajax({
                 url: '/games/makeGuess',
                 method: 'post',
-                data: { guesses: guesses },
+                data: { guess: guess },
                 success: function (data) {
                     var playerInfo = getPlayerInfoFromGameInfo(data);
                     updateWordContainer(playerInfo.OpenedPositions);
@@ -168,10 +178,12 @@
                 var $nameTd = $('<td>').html(currentOponent.Name);
                 var $errorsTd = $('<td>').html(currentOponent.NumberOfErrors);
                 var guessesTd = $('<td>').html(currentOponent.NumberOfGuesses);
+                var statusTd = $('<td>').html(currentOponent.NumberOfGuesses);
 
                 $currentOponentRow.append($nameTd);
-                $currentOponentRow.append($errorsTd);
                 $currentOponentRow.append(guessesTd);
+                $currentOponentRow.append($errorsTd);
+                $currentOponentRow.append($errorsTd);
 
                 $container.append($currentOponentRow);
             }
@@ -240,7 +252,7 @@
         }
 
         function setGameStateToInactive() {
-            $('#btnGuess').prop('disabled', true);
+            $('.letterButton').prop('disabled', true);
         }
 
         function getHidden() {

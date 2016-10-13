@@ -97,7 +97,7 @@
             activeGames.Remove(gameId);
         }
 
-        public ActiveGamePlayerModel MakeGuess(string gameId, string playerId, IEnumerable<MakeGuessRequestViewModel> guesses, bool guessAll)
+        public ActiveGamePlayerModel MakeGuess(string gameId, string playerId, char guess, bool guessAll)
         {
             if (!activeGames.ContainsKey(gameId))
             {
@@ -111,29 +111,23 @@
                 throw new ArgumentException("User is not in the game");
             }
 
-            player.NumberOfGuesses++;
-
+            var openedPositions = player.OpenedPositions.ToList();
             var positionsToOpen = new Queue<int>();
-            foreach (var guess in guesses)
+            for (int i = 0; i < game.Word.Length; i++)
             {
-                var guessLetter = char.ToLower(guess.Letter);
-                if (game.Word[guess.Index] == guessLetter)
+                if (openedPositions[i] == '\0' && game.Word[i] == char.ToLower(guess))
                 {
-                    positionsToOpen.Enqueue(guess.Index);
+                    positionsToOpen.Enqueue(i);
                 }
-                else
-                {
-                    if (guessAll)
-                    {
-                        // Set player to loose game
-                    }
-                    else
-                    {
-                        player.NumberOfErrors++;
+            }
 
-                        return player;
-                    }
-                }
+            if (positionsToOpen.Any())
+            {
+                player.NumberOfGuesses += positionsToOpen.Count;
+            }
+            else
+            {
+                player.NumberOfErrors += 1;
             }
 
             this.OpenPositions(player, game, positionsToOpen);

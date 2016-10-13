@@ -99,7 +99,10 @@
 
             var notifier = new Notifier();
             var game = gamesManager[gameId];
-            var playerIds = game.Players.Select(p => p.Id).ToArray();
+            var playerIds = game.Players
+                .Select(p => p.Id)
+                .Where(p => p != this.User.Identity.GetUserId())
+                .ToArray();
             notifier.UpdateGame(playerIds);
 
             var responseModel = new NewGameViewModel
@@ -116,12 +119,12 @@
         }
 
         [HttpPost]
-        public ActionResult MakeGuess(IEnumerable<MakeGuessRequestViewModel> guesses)
+        public ActionResult MakeGuess(char guess)
         {
             var gameId = this.Request.Cookies["CurrentGameId"].Value;
             var playerId = this.User.Identity.GetUserId();
             var activeGamesManager = new ActiveGamesManager();
-            var updatedPlayer = activeGamesManager.MakeGuess(gameId, playerId, guesses, false);
+            var updatedPlayer = activeGamesManager.MakeGuess(gameId, playerId, guess, false);
             var game = activeGamesManager[gameId];
 
             if (game.GameStatus == GameStatus.HasWinner || game.GameStatus == GameStatus.Closed)
@@ -137,7 +140,11 @@
             var gameWinnerId = game.WinnerId;
 
             var notifier = new Notifier();
-            notifier.UpdateGame(game.Players.Select(x => x.Id).ToArray());
+            notifier.UpdateGame(
+                                game.Players
+                                .Select(x => x.Id)
+                                .Where(x => x != this.User.Identity.GetUserId())
+                                .ToArray());
 
             return this.Json(game);
         }
