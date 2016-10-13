@@ -66,8 +66,9 @@
                 method: 'post',
                 data: { guesses: guesses },
                 success: function (data) {
-                    updateImage(data.NumberOfErrors);
-                    updateWordContainer(data.OpenedPositions);
+                    updateImage(data.updatedPlayer.NumberOfErrors);
+                    updateWordContainer(data.updatedPlayer.OpenedPositions);
+                    updateGameState(data);
                 }
             });
         });
@@ -95,6 +96,10 @@
                     $wordContainer.append($space);
                 }
             }
+        }
+
+        function updateGameState(data) {
+
         }
 
         function getHidden() {

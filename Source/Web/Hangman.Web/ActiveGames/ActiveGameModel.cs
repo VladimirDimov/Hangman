@@ -12,8 +12,8 @@ namespace Hangman.Web.ActiveGames
 
         public ActiveGamePlayerModel Owner { get; set; }
 
-        //public ActiveGamePlayerModel FirstPlayer { get; set; }
+        public string WinnerId { get; set; }
 
-        //public ActiveGamePlayerModel SecondPlayer { get; set; }
+        public GameStatus GameStatus { get; set; }
     }
 }

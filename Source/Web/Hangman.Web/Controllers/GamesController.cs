@@ -86,7 +86,12 @@
             var activeGamesManager = new ActiveGamesManager();
             var updatedPlayer = activeGamesManager.MakeGuess(gameId, playerId, guesses, false);
 
-            return this.Json(updatedPlayer);
+            return this.Json(new
+            {
+                updatedPlayer,
+                activeGamesManager[gameId].GameStatus,
+                activeGamesManager[gameId].WinnerId
+            });
         }
     }
 }

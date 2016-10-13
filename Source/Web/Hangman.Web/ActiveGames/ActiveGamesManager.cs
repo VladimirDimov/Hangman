@@ -19,7 +19,7 @@
         }
 
         /// <summary>
-        /// Creates a game and returns it's id
+        /// Creates a game and returns game ID
         /// </summary>
         public string CreateGame(string word, string userId, string username, bool isMultiplayer)
         {
@@ -66,29 +66,12 @@
                     Players = players,
                     Owner = players.First(),
                     IsMultiplayer = isMultiplayer,
-                    Word = word.ToLower()
+                    Word = word.ToLower(),
+                    GameStatus = isMultiplayer ? GameStatus.WaitingForOpponent : GameStatus.Active
                 });
             }
 
             return gameId;
-        }
-
-        private static IEnumerable<char> GetInitialOpenedPositions(string word)
-        {
-            var positions = new char[word.Length];
-            positions[0] = word[0];
-            positions[word.Length - 1] = word[word.Length - 1];
-            for (int i = 0; i < word.Length; i++)
-            {
-                if (word[i] == ' ')
-                {
-                    positions[i] = '*';
-                    positions[i - 1] = word[i - 1];
-                    positions[i + 1] = word[i + 1];
-                }
-            }
-
-            return positions.ToList();
         }
 
         public ActiveGamePlayerModel MakeGuess(string gameId, string playerId, IEnumerable<MakeGuessRequestViewModel> guesses, bool guessAll)
@@ -129,8 +112,35 @@
             }
 
             this.OpenPositions(player, game, positionsToOpen);
-
+            this.UpdateGameStatus(player, game);
             return player;
+        }
+
+        private void UpdateGameStatus(ActiveGamePlayerModel player, ActiveGameModel game)
+        {
+            if (!player.OpenedPositions.Contains('\0'))
+            {
+                game.GameStatus = GameStatus.HasWinner;
+                game.WinnerId = player.Id;
+            }
+        }
+
+        private static IEnumerable<char> GetInitialOpenedPositions(string word)
+        {
+            var positions = new char[word.Length];
+            positions[0] = word[0];
+            positions[word.Length - 1] = word[word.Length - 1];
+            for (int i = 0; i < word.Length; i++)
+            {
+                if (word[i] == ' ')
+                {
+                    positions[i] = '*';
+                    positions[i - 1] = word[i - 1];
+                    positions[i + 1] = word[i + 1];
+                }
+            }
+
+            return positions.ToList();
         }
 
         private void OpenPositions(ActiveGamePlayerModel player, ActiveGameModel game, Queue<int> positionsToOpen)

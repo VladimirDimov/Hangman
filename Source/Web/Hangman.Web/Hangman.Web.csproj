@@ -199,6 +199,7 @@
     <Compile Include="ActiveGames\ActiveGameModel.cs" />
     <Compile Include="ActiveGames\ActiveGamePlayerModel.cs" />
     <Compile Include="ActiveGames\ActiveGamesManager.cs" />
+    <Compile Include="ActiveGames\GameStatus.cs" />
     <Compile Include="App_Start\ApplicationSignInManager.cs" />
     <Compile Include="App_Start\ApplicationUserManager.cs" />
     <Compile Include="App_Start\AutofacConfig.cs" />
