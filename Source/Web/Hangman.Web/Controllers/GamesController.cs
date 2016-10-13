@@ -119,11 +119,40 @@
         }
 
         [HttpPost]
+        public ActionResult Leave()
+        {
+            var gameId = this.Request.Cookies["CurrentGameId"].Value;
+            var gamesManager = new ActiveGamesManager();
+            gamesManager.Leave(gameId, this.User.Identity.GetUserId());
+
+            var game = gamesManager[gameId];
+            if (game != null)
+            {
+                var notifier = new Notifier();
+                notifier.UpdateGame(
+                                game.Players
+                                .Select(x => x.Id)
+                                .Where(x => x != this.User.Identity.GetUserId())
+                                .ToArray());
+            }
+
+            return new HttpStatusCodeResult(200);
+        }
+
+        [HttpPost]
         public ActionResult GuessAll(string guess)
         {
             var gameId = this.Request.Cookies["CurrentGameId"].Value;
             var gamesManager = new ActiveGamesManager();
             gamesManager.GuessAll(this.User.Identity.GetUserId(), gameId, guess);
+            var game = gamesManager[gameId];
+
+            var notifier = new Notifier();
+            notifier.UpdateGame(
+                                game.Players
+                                .Select(x => x.Id)
+                                .Where(x => x != this.User.Identity.GetUserId())
+                                .ToArray());
 
             return this.Json(gamesManager[gameId]);
         }

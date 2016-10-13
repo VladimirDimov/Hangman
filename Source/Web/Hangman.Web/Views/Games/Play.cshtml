@@ -79,7 +79,6 @@
                     <th>Player</th>
                     <th>Guessed</th>
                     <th>Errors</th>
-                    <th>Status</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -91,6 +90,14 @@
     <script src="~/signalr/hubs"></script>
     <script>
         updateGameValues();
+
+        window.onunload = function () {
+            $.ajax({
+                url: '/games/leave',
+                method: 'post'
+            });
+        }
+
         $(function () {
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.notifier;
@@ -267,6 +274,13 @@
                 if (updatedPlayer.NumberOfErrors == 5) {
                     imageFleName = 'loose';
                     setGameStateToInactive();
+                    return;
+                }
+
+                if (data.GameStatus != 0) { // if the game is no active
+                    setGameStateToInactive();
+                } else {
+                    setGameStateToActive();
                 }
             }
 
@@ -275,6 +289,10 @@
 
         function setGameStateToInactive() {
             $('.letterButton').prop('disabled', true);
+        }
+
+        function setGameStateToActive() {
+            $('.letterButton').prop('disabled', false);
         }
 
         function getHidden() {

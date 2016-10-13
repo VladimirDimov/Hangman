@@ -40,17 +40,17 @@
             }
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<UserStatistics>()
-                .HasKey(us => us.UserId);
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<UserStatistics>()
+        //        .HasKey(us => us.UserId);
 
-            modelBuilder.Entity<User>()
-                .HasRequired(u => u.UserStatistics)
-                .WithRequiredPrincipal(us => us.User);
+        //    modelBuilder.Entity<User>()
+        //        .HasOptional(u => u.UserStatistics)
+        //        .WithRequired(us => us.User);
 
-            base.OnModelCreating(modelBuilder);
-        }
+        //    base.OnModelCreating(modelBuilder);
+        //}
 
         private void ApplyAuditInfoRules()
         {

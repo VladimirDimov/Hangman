@@ -21,35 +21,29 @@
         public void UpdateUserStatistics(string userId, bool isCurrentGameWinner, int numberOfErrors, int numberOfGuesses)
         {
             var user = this.usersRepository.GetById(userId);
-            if (user.UserStatistics == null)
-            {
-                user.UserStatistics = new UserStatistics();
-            }
 
-            user.UserStatistics.NumberOfGames++;
+            user.NumberOfGames++;
             if (isCurrentGameWinner)
             {
-                user.UserStatistics.NumberOfGamesWon++;
+                user.NumberOfGamesWon++;
             }
             else
             {
-                user.UserStatistics.NumberOfGamesLost++;
+                user.NumberOfGamesLost++;
             }
 
-            user.UserStatistics.NumberOfGuesses += numberOfGuesses;
-            user.UserStatistics.NumberOfSuccessfulGuesses += numberOfGuesses - numberOfErrors;
-            user.UserStatistics.NumberOfUnsuccessfulGuesses += numberOfErrors;
+            user.NumberOfGuesses += numberOfGuesses;
+            user.NumberOfSuccessfulGuesses += numberOfGuesses - numberOfErrors;
+            user.NumberOfUnsuccessfulGuesses += numberOfErrors;
 
             this.usersRepository.Save();
         }
 
-        public IQueryable<UserStatistics> All()
+        public IQueryable<User> All()
         {
             return this.cacheService.Get("statistics", () =>
             {
-                var statistics = this.usersRepository.AllWithDeleted()
-                .Where(u => u.UserStatistics != null)
-                .Select(u => u.UserStatistics);
+                var statistics = this.usersRepository.AllWithDeleted();
 
                 return statistics.ToList();
             },

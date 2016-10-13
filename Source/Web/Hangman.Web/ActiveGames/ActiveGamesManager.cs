@@ -143,7 +143,7 @@
                 return;
             }
 
-            this[gameId].Players.Add(new ActiveGamePlayerModel
+            game.Players.Add(new ActiveGamePlayerModel
             {
                 Id = playerId,
                 NumberOfErrors = 0,
@@ -151,6 +151,38 @@
                 OpenedPositions = GetInitialOpenedPositions(game.Word),
                 Name = playerName
             });
+
+            if (game.Players.Count > 1)
+            {
+                game.GameStatus = GameStatus.Active;
+            }
+        }
+
+        internal void Leave(string gameId, string playerId)
+        {
+            var game = this[gameId];
+            if (game == null)
+            {
+                return;
+            }
+
+            var playerToRemove = game.Players.FirstOrDefault(p => p.Id == playerId);
+            if (playerId == null)
+            {
+                return;
+            }
+
+            game.Players.Remove(playerToRemove);
+
+            if (game.Players.Count == 1)
+            {
+                game.GameStatus = GameStatus.WaitingForOpponent;
+            }
+
+            if (!game.Players.Any())
+            {
+                this.RemoveGame(gameId);
+            }
         }
 
         internal void GuessAll(string userId, string gameId, string guess)

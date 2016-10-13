@@ -7,6 +7,6 @@
     {
         void UpdateUserStatistics(string userId, bool isCurrentGameWinner, int numberOfErrors, int wordLength);
 
-        IQueryable<UserStatistics> All();
+        IQueryable<User> All();
     }
 }

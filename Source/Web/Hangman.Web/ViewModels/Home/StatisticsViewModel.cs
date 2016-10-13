@@ -6,13 +6,13 @@
 
     public class StatisticsViewModel
     {
-        public static Expression<Func<UserStatistics, StatisticsViewModel>> FromModel
+        public static Expression<Func<User, StatisticsViewModel>> FromModel
         {
             get
             {
                 return m => new StatisticsViewModel
                 {
-                    User = m.User.UserName,
+                    User = m.UserName,
                     NumberOfGames = m.NumberOfGames,
                     NumberOfGamesLost = m.NumberOfGamesLost,
                     NumberOfGamesWon = m.NumberOfGamesWon,

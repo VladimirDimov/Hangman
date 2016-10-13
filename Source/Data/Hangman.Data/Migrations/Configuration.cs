@@ -1,4 +1,4 @@
-﻿namespace Hangman.Data.Migrations
+namespace Hangman.Data.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -7,7 +7,7 @@
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
 
-    public sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+    public sealed class Configuration : DbMigrationsConfiguration<Hangman.Data.ApplicationDbContext>
     {
         public Configuration()
         {
@@ -39,11 +39,9 @@
                 {
                     Email = email,
                     UserName = email,
-                    PasswordHash = hasher.HashPassword("123456"),
-                    SecurityStamp = Guid.NewGuid().ToString()
                 };
 
-                context.Users.Add(user);
+                userManager.Create(user, "123456");
             }
 
             context.SaveChanges();

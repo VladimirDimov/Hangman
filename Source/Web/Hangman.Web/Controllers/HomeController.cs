@@ -2,7 +2,6 @@
 {
     using System.Linq;
     using System.Web.Mvc;
-    using Data.Models;
     using Hubs;
     using Services.Data.Contracts;
     using ViewModels.Home;
@@ -22,7 +21,8 @@
 
             var statistics = this.statisticsService.All()
                 .Select(StatisticsViewModel.FromModel)
-                .OrderBy(x => x.NumberOfGamesWon);
+                .OrderByDescending(x => x.NumberOfGamesWon)
+                .ThenByDescending(x => x.NumberOfSuccessfulGuesses);
 
             var model = new HomeViewModel
             {

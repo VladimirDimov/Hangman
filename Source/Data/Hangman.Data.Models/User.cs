@@ -10,7 +10,19 @@
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class User : IdentityUser
     {
-        public virtual UserStatistics UserStatistics { get; set; }
+        //public virtual UserStatistics UserStatistics { get; set; }
+
+        public int NumberOfGuesses { get; set; }
+
+        public int NumberOfSuccessfulGuesses { get; set; }
+
+        public int NumberOfUnsuccessfulGuesses { get; set; }
+
+        public int NumberOfGames { get; set; }
+
+        public int NumberOfGamesWon { get; set; }
+
+        public int NumberOfGamesLost { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
