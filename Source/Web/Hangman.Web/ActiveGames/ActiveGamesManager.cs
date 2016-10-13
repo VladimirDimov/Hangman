@@ -15,6 +15,11 @@
         {
             get
             {
+                if (!activeGames.ContainsKey(id))
+                {
+                    return null;
+                }
+
                 return activeGames[id];
             }
         }

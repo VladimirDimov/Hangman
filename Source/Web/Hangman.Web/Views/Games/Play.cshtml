@@ -38,16 +38,24 @@
 {
     <div>
         <h2 class="waitingForOpponent">Waiting for opponent</h2>
-        <div id="oponentsInfo">
-
-        </div>
+        <table id="oponentsInfo" class="table-striped">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Guessed</th>
+                    <th>Errors</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 }
 
 @section Scripts {
     <script src="~/signalr/hubs"></script>
     <script>
-
+        updateGameValues();
         $(function () {
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.notifier;
@@ -90,6 +98,7 @@
                     updateWordContainer(currentPlayer.OpenedPositions);
                     upateWaitingForOponent(data);
                     updateOponentsStatus(data);
+                    updateGameStatus(data);
                 }
             });
         }
@@ -136,8 +145,8 @@
                 method: 'post',
                 data: { guesses: guesses },
                 success: function (data) {
-                    //updateImage(data.updatedPlayer.NumberOfErrors);
-                    updateWordContainer(data.updatedPlayer.OpenedPositions);
+                    var playerInfo = getPlayerInfoFromGameInfo(data);
+                    updateWordContainer(playerInfo.OpenedPositions);
                     updateGameState(data);
                 }
             });
@@ -151,18 +160,19 @@
             }
         }
 
+        function updateGameStatus(data) {
+            if (data.GameStatus == 3) {
+                $('')
+            }
+        }
+
         function updateOponentsStatus(data) {
             var oponents = getOponents(data.Players);
-            var $container = $('#oponentsInfo');
+            var $container = $('#oponentsInfo tbody');
             $container.empty();
             for (var i = 0, length = oponents.length; i < length; i++) {
                 var currentOponent = oponents[i];
-                var $currentOponentTable = $('<table>');
-                var $currentOponentTBody = $('<tbody>');
-                var $currentOponentRow = $('<row>');
-
-                $currentOponentTable.append($currentOponentTBody);
-                $currentOponentTBody.append($currentOponentRow);
+                var $currentOponentRow = $('<tr>');
 
                 var $nameTd = $('<td>').html(currentOponent.Name);
                 var $errorsTd = $('<td>').html(currentOponent.NumberOfErrors);
@@ -172,7 +182,7 @@
                 $currentOponentRow.append($errorsTd);
                 $currentOponentRow.append(guessesTd);
 
-                $container.append($currentOponentTable);
+                $container.append($currentOponentRow);
             }
         }
 
@@ -215,9 +225,11 @@
         }
 
         function updateGameState(data) {
-            var imageFleName;
-            if (data.winnerId) {
-                if (data.winnerId == '@User.Identity.GetUserId()') {
+            var imageFleName,
+                updatedPlayer = getPlayerInfoFromGameInfo(data);
+
+            if (data.WinnerId) {
+                if (data.WinnerId == '@User.Identity.GetUserId()') {
                     imageFleName = 'win';
                 } else {
                     imageFleName = 'loose';
@@ -225,9 +237,9 @@
 
                 setGameStateToInactive();
             } else {
-                imageFleName = data.updatedPlayer.NumberOfErrors;
+                imageFleName = updatedPlayer.NumberOfErrors;
 
-                if (data.updatedPlayer.NumberOfErrors == 5) {
+                if (updatedPlayer.NumberOfErrors == 5) {
                     imageFleName = 'loose';
                     setGameStateToInactive();
                 }

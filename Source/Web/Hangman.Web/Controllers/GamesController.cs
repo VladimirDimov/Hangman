@@ -140,12 +140,10 @@
                 activeGamesManager.RemoveGame(gameId);
             }
 
-            return this.Json(new
-            {
-                updatedPlayer = updatedPlayer,
-                gameStatus = gameStatus,
-                winnerId = gameWinnerId
-            });
+            var notifier = new Notifier();
+            notifier.UpdateGame(game.Players.Select(x => x.Id).ToArray());
+
+            return this.Json(game);
         }
     }
 }
