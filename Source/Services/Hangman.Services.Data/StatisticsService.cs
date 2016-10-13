@@ -1,8 +1,8 @@
 ﻿namespace Hangman.Services.Data
 {
     using System.Linq;
-    using Contracts;
     using Common;
+    using Contracts;
     using Hangman.Data.Common;
     using Hangman.Data.Models;
     using Web;

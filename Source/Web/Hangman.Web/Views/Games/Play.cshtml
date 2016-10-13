@@ -38,16 +38,22 @@
     <script>
         $('#wordContainer').on('click', '.hiddenLetter', function () {
             var $this = $(this);
-            if ($this.find('input').length != 0) {
+
+            if ($('#wordContainer').find('input').length != 0) {
                 return;
             }
-            $this.empty();
+
+            renderInputLetter($this);
+        });
+
+        function renderInputLetter(container) {
+            container.empty();
             var $input = $('<input type="text" pattern="[A-Za-z]{1}">');
             $input.attr('maxlength', 1);
             $input.addClass('letterInput letter');
-            $this.append($input);
+            container.append($input);
             $input.focus();
-        });
+        }
 
         $('#btnGuess').on('click', function () {
             var allHiddenLettersContainers = $('.hiddenLetter');
@@ -58,6 +64,10 @@
                 if (currentGuess != '') {
                     guesses.push({ index: $(guessLetters[i]).parent().attr('data-index'), letter: $(guessLetters[i]).val() });
                 }
+            }
+
+            if (guesses.length == 0) {
+                return;
             }
 
             $.ajax({
