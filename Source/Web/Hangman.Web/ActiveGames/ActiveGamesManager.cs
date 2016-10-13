@@ -153,6 +153,31 @@
             });
         }
 
+        internal void GuessAll(string userId, string gameId, string guess)
+        {
+            if (!activeGames.ContainsKey(gameId))
+            {
+                return;
+            }
+
+            var game = activeGames[gameId];
+            if (game.Word.ToLower() == guess.ToLower())
+            {
+                game.WinnerId = userId;
+                game.GameStatus = GameStatus.HasWinner;
+            }
+            else
+            {
+                var player = game.Players.FirstOrDefault(p => p.Id == userId);
+                if (player == null)
+                {
+                    return;
+                }
+
+                player.NumberOfErrors = GlobalConstants.MaxNumberOfErrors;
+            }
+        }
+
         private void UpdateGameStatus(ActiveGamePlayerModel player, ActiveGameModel game)
         {
             if (!player.OpenedPositions.Contains('\0'))

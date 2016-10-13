@@ -119,6 +119,16 @@
         }
 
         [HttpPost]
+        public ActionResult GuessAll(string guess)
+        {
+            var gameId = this.Request.Cookies["CurrentGameId"].Value;
+            var gamesManager = new ActiveGamesManager();
+            gamesManager.GuessAll(this.User.Identity.GetUserId(), gameId, guess);
+
+            return this.Json(gamesManager[gameId]);
+        }
+
+        [HttpPost]
         public ActionResult MakeGuess(char guess)
         {
             var gameId = this.Request.Cookies["CurrentGameId"].Value;

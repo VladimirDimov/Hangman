@@ -63,6 +63,10 @@
             <button class="btn btn-default letterButton">Z</button>
         </div>
     </div>
+    <div class="row">
+        <input type="text" class="form-control col-md-3" id="tbGuessAll" />
+        <button class="btn btn-primary col-md-2" id="btnGuessAll">I know the word.</button>
+    </div>
 </div>
 
 @if (Model.IsMultiplayer)
@@ -106,6 +110,24 @@
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
         }
+
+        $('#btnGuessAll').on('click', function () {
+            var guess = $('#tbGuessAll').val();
+            if (!guess) {
+                return;
+            }
+
+            $.ajax({
+                url: '/games/guessAll',
+                method: 'post',
+                data: { guess: guess },
+                success: function (data) {
+                    var currentPlayer = getPlayerInfoFromGameInfo(data);
+                    updateWordContainer(currentPlayer.OpenedPositions);
+                    updateGameState(data);
+                }
+            });
+        });
 
         $('#wordContainer').on('click', '.hiddenLetter', function () {
             var $this = $(this);
