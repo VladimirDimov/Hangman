@@ -1,17 +1,21 @@
 ﻿namespace Hangman.Services.Data
 {
-    using System;
+    using System.Linq;
     using Contracts;
+    using Common;
     using Hangman.Data.Common;
     using Hangman.Data.Models;
+    using Web;
 
     public class StatisticsService : IStatisticsService
     {
         private readonly IDbGenericRepository<User, string> usersRepository;
+        private ICacheService cacheService;
 
-        public StatisticsService(IDbGenericRepository<User, string> usersRepository)
+        public StatisticsService(IDbGenericRepository<User, string> usersRepository, ICacheService cacheService)
         {
             this.usersRepository = usersRepository;
+            this.cacheService = cacheService;
         }
 
         public void UpdateUserStatistics(string userId, bool isCurrentGameWinner, int numberOfErrors, int numberOfGuesses)
@@ -33,8 +37,24 @@
             }
 
             user.UserStatistics.NumberOfGuesses += numberOfGuesses;
+            user.UserStatistics.NumberOfSuccessfulGuesses += numberOfGuesses - numberOfErrors;
+            user.UserStatistics.NumberOfUnsuccessfulGuesses += numberOfErrors;
 
             this.usersRepository.Save();
+        }
+
+        public IQueryable<UserStatistics> All()
+        {
+            return this.cacheService.Get("statistics", () =>
+            {
+                var statistics = this.usersRepository.AllWithDeleted()
+                .Where(u => u.UserStatistics != null)
+                .Select(u => u.UserStatistics);
+
+                return statistics.ToList();
+            },
+            GlobalConstants.TimeToCacheStatisticsInSeconds)
+            .AsQueryable();
         }
     }
 }

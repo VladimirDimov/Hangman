@@ -1,6 +1,17 @@
-﻿@model Hangman.Web.ViewModels.Home.HomeViewModel
+﻿@model IQueryable<Hangman.Web.ViewModels.Home.StatisticsViewModel>
 
-@{
-    ViewBag.Title = "Home Page";
-}
-<h1>Index</h1>
+@using GridMvc.Html
+@using GridMvc.Columns
+
+@Html.Grid(Model).Columns(columns =>
+{
+
+    columns.Add(c => c.User).Titled("User").Filterable(true);
+    columns.Add(c => c.NumberOfGames).Titled("Games").Filterable(true);
+    columns.Add(c => c.NumberOfGamesWon).Titled("Games Won").Filterable(true);
+    columns.Add(c => c.NumberOfGamesLost).Titled("Games Lost").Filterable(true);
+    columns.Add(c => c.NumberOfGuesses).Titled("All Guesses").Filterable(true);
+    columns.Add(c => c.NumberOfSuccessfulGuesses).Titled("Sucessful guesses").Filterable(true);
+    columns.Add(c => c.NumberOfUnsuccessfulGuesses).Titled("Unsucessful guesses").Filterable(true);
+
+}).WithPaging(10).Sortable(true)

@@ -6,18 +6,19 @@
 
     public class StatisticsViewModel
     {
-        public static Expression<Func<User, StatisticsViewModel>> FromModel
+        public static Expression<Func<UserStatistics, StatisticsViewModel>> FromModel
         {
             get
             {
                 return m => new StatisticsViewModel
                 {
-                    User = m.UserName,
-                    NumberOfGames = m.UserStatistics.NumberOfGames,
-                    NumberOfGamesLost = m.UserStatistics.NumberOfGamesLost,
-                    NumberOfGamesWon = m.UserStatistics.NumberOfGamesWon,
-                    NumberOfGuesses = m.UserStatistics.NumberOfGuesses,
-                    NumberOfUnsuccessfulGuesses = m.UserStatistics.NumberOfUnsuccessfulGuesses,
+                    User = m.User.UserName,
+                    NumberOfGames = m.NumberOfGames,
+                    NumberOfGamesLost = m.NumberOfGamesLost,
+                    NumberOfGamesWon = m.NumberOfGamesWon,
+                    NumberOfGuesses = m.NumberOfGuesses,
+                    NumberOfUnsuccessfulGuesses = m.NumberOfUnsuccessfulGuesses,
+                    NumberOfSuccessfulGuesses = m.NumberOfGuesses - m.NumberOfUnsuccessfulGuesses,
                 };
             }
         }
@@ -29,6 +30,8 @@
         public int NumberOfGamesWon { get; private set; }
 
         public int NumberOfGuesses { get; private set; }
+
+        public int NumberOfSuccessfulGuesses { get; private set; }
 
         public int NumberOfUnsuccessfulGuesses { get; private set; }
 

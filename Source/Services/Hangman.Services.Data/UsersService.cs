@@ -1,6 +1,5 @@
 ﻿namespace Hangman.Services.Data
 {
-    using System;
     using System.Linq;
     using Contracts;
     using Hangman.Data.Common;
@@ -8,13 +7,16 @@
 
     public class UsersService : IUsersService
     {
-        public UsersService()
+        private IDbGenericRepository<User, string> usersRepository;
+
+        public UsersService(IDbGenericRepository<User, string> usersRepository)
         {
+            this.usersRepository = usersRepository;
         }
 
         public IQueryable<User> All()
         {
-            throw new NotImplementedException();
+            return this.usersRepository.AllWithDeleted();
         }
     }
 }

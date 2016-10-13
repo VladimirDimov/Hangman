@@ -2,29 +2,31 @@
 {
     using System.Linq;
     using System.Web.Mvc;
+    using Data.Models;
     using Services.Data.Contracts;
     using ViewModels.Home;
 
     public class HomeController : BaseController
     {
-        private IUsersService usersService;
+        private IStatisticsService statisticsService;
 
-        public HomeController(IUsersService usersService)
+        public HomeController(IStatisticsService statisticsService)
         {
-            this.usersService = usersService;
+            this.statisticsService = statisticsService;
         }
 
         public ActionResult Index()
         {
-            var statistics = this.usersService.All()
-                .Select(StatisticsViewModel.FromModel);
+            var statistics = this.statisticsService.All()
+                .Select(StatisticsViewModel.FromModel)
+                .OrderBy(x => x.NumberOfGamesWon);
 
             var model = new HomeViewModel
             {
                 Statistics = statistics
             };
 
-            return this.View(model);
+            return this.View(statistics);
         }
 
         //public ActionResult Log(/*string message,*/ string group)
