@@ -13,11 +13,10 @@
         {
         }
 
-        public string GetRandomFromCategory(int categoryId)
+        public Word GetRandomFromCategory(int categoryId)
         {
             var wordsFromCategory = this.All()
                 .Where(w => w.CategoryId == categoryId)
-                .Select(w => w.Content)
                 .ToList();
 
             var numberOfWordsInCategory = wordsFromCategory.Count;

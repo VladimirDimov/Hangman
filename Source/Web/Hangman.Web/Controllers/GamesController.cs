@@ -17,6 +17,7 @@
         private ICategoriesService categoriesService;
         private IWordsService wordsService;
         private IStatisticsService statisticsService;
+        private ActiveGamesManager gamesManager;
 
         public GamesController(
             ICategoriesService categoriesService,
@@ -53,7 +54,8 @@
             var activeGamesManager = new ActiveGamesManager();
 
             var gameId = activeGamesManager.CreateGame(
-                                                        word,
+                                                        word.Content,
+                                                        word.Description,
                                                         this.User.Identity.GetUserId(),
                                                         this.User.Identity.Name,
                                                         model.GameType == GameType.MultiPlayer,
@@ -65,6 +67,7 @@
             {
                 NumberOfErrors = 0,
                 OpenedPositions = game.Owner.OpenedPositions.ToList(),
+                Description = game.Description,
                 IsMultiplayer = game.IsMultiplayer,
                 GameId = gameId
             };
@@ -166,13 +169,12 @@
             var updatedPlayer = activeGamesManager.MakeGuess(gameId, playerId, guess, false);
             var game = activeGamesManager[gameId];
 
-            if (game.GameStatus == GameStatus.HasWinner || game.GameStatus == GameStatus.Closed)
+            if (game.GameStatus == GameStatus.HasWinner || game.GameStatus == GameStatus.Over)
             {
-                this.statisticsService.UpdateUserStatistics(playerId, playerId == game.WinnerId, updatedPlayer.NumberOfErrors, updatedPlayer.NumberOfGuesses);
-            }
-            else if (updatedPlayer.NumberOfErrors == 5)
-            {
-                this.statisticsService.UpdateUserStatistics(playerId, playerId == game.WinnerId, updatedPlayer.NumberOfErrors, updatedPlayer.NumberOfGuesses);
+                foreach (var player in game.Players)
+                {
+                    this.statisticsService.UpdateUserStatistics(player.Id, player.Id == game.WinnerId, player.NumberOfErrors, player.NumberOfGuesses);
+                }
             }
 
             var gameStatus = game.GameStatus;

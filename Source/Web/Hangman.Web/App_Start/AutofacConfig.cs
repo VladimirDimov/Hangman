@@ -3,7 +3,7 @@
     using System.Data.Entity;
     using System.Reflection;
     using System.Web.Mvc;
-
+    using ActiveGames;
     using Autofac;
     using Autofac.Integration.Mvc;
 
@@ -45,6 +45,11 @@
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+        }
+
+        private static void RegisterControllers(ContainerBuilder builder)
+        {
+            //
         }
 
         private static void RegisterData(ContainerBuilder builder)

@@ -7,6 +7,6 @@ namespace Hangman.Web.ActiveGames
         Active = 0,
         WaitingForOpponent = 1,
         HasWinner = 2,
-        Closed = 3
+        Over = 3
     }
 }

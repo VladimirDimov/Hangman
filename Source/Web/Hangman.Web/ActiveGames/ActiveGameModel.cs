@@ -8,6 +8,8 @@ namespace Hangman.Web.ActiveGames
 
         public string Word { get; set; }
 
+        public string Description { get; set; }
+
         public bool IsMultiplayer { get; set; }
 
         public IList<ActiveGamePlayerModel> Players { get; set; }

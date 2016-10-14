@@ -35,7 +35,7 @@
         /// <summary>
         /// Creates a game and returns game ID
         /// </summary>
-        public string CreateGame(string word, string userId, string username, bool isMultiplayer, string gameName)
+        public string CreateGame(string word, string description, string userId, string username, bool isMultiplayer, string gameName)
         {
             var playerExistingGame = activeGames.FirstOrDefault(g => g.Value.Players.Any(p => p.Id == userId));
 
@@ -84,6 +84,7 @@
                     Owner = players.First(),
                     IsMultiplayer = isMultiplayer,
                     Word = word.ToLower(),
+                    Description = description,
                     GameStatus = isMultiplayer ? GameStatus.WaitingForOpponent : GameStatus.Active,
                     GameName = gameName
                 });
@@ -221,7 +222,7 @@
             {
                 if (!game.IsMultiplayer)
                 {
-                    game.GameStatus = GameStatus.Closed;
+                    game.GameStatus = GameStatus.Over;
                 }
                 else if (game.Players.Count() == 2)
                 {

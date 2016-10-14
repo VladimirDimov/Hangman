@@ -6,66 +6,75 @@
     var initialImageUrl = "/Content/images/hangman/" + Model.NumberOfErrors + ".png";
 }
 
-<h2>Play</h2>
+<div class="row">
+    <div id="hangman-image" class="col-md-5">
+        <img src="@initialImageUrl" alt="No Image" />
+    </div>
+    <div class="clearfix" />
+    <div class="col-md-4">
+        <div id="wordContainer">
+            @for (int i = 0; i < numberOfLetters; i++)
+            {
+                var letter = Model.OpenedPositions[i];
 
-<div id="hangman-image">
-    <img src="@initialImageUrl" alt="No Image" />
-</div>
-
-<div id="wordContainer">
-    @for (int i = 0; i < numberOfLetters; i++)
-    {
-        var letter = Model.OpenedPositions[i];
-
-        if (letter == '\0')
-        {
-            <span class="hiddenLetter letter" data-index="@i">_</span>
-        }
-        else if (letter != '*')
-        {
-            <span class="letter">@letter</span>
-        }
-        else
-        {
-            <span class="letter">&nbsp;</span>
-        }
-    }
-</div>
-
-<div class="container">
-    <div class="btn-toolbar">
-        <div class="btn-group btn-group-sm" id="alphabet">
-            <button class="btn btn-default letterButton">A</button>
-            <button class="btn btn-default letterButton">B</button>
-            <button class="btn btn-default letterButton">C</button>
-            <button class="btn btn-default letterButton">D</button>
-            <button class="btn btn-default letterButton">E</button>
-            <button class="btn btn-default letterButton">F</button>
-            <button class="btn btn-default letterButton">G</button>
-            <button class="btn btn-default letterButton">H</button>
-            <button class="btn btn-default letterButton">I</button>
-            <button class="btn btn-default letterButton">J</button>
-            <button class="btn btn-default letterButton">K</button>
-            <button class="btn btn-default letterButton">L</button>
-            <button class="btn btn-default letterButton">M</button>
-            <button class="btn btn-default letterButton">N</button>
-            <button class="btn btn-default letterButton">O</button>
-            <button class="btn btn-default letterButton">P</button>
-            <button class="btn btn-default letterButton">Q</button>
-            <button class="btn btn-default letterButton">R</button>
-            <button class="btn btn-default letterButton">S</button>
-            <button class="btn btn-default letterButton">T</button>
-            <button class="btn btn-default letterButton">U</button>
-            <button class="btn btn-default letterButton">V</button>
-            <button class="btn btn-default letterButton">W</button>
-            <button class="btn btn-default letterButton">X</button>
-            <button class="btn btn-default letterButton">Y</button>
-            <button class="btn btn-default letterButton">Z</button>
+                if (letter == '\0')
+                {
+                    <span class="hiddenLetter letter" data-index="@i">_</span>
+                }
+                else if (letter != '*')
+                {
+                    <span class="letter">@letter</span>
+                }
+                else
+                {
+                    <span class="letter">&nbsp;</span>
+                }
+            }
+        </div>
+        <div>
+            <span>@Model.Description</span>
         </div>
     </div>
-    <div class="row">
-        <input type="text" class="form-control col-md-3" id="tbGuessAll" />
-        <button class="btn btn-primary col-md-2" id="btnGuessAll">I know the word.</button>
+
+    <div class="clearfix" />
+
+    <div class="container">
+        <div class="btn-toolbar">
+            <div class="btn-group btn-group-sm" id="alphabet">
+                <button class="btn btn-default letterButton">A</button>
+                <button class="btn btn-default letterButton">B</button>
+                <button class="btn btn-default letterButton">C</button>
+                <button class="btn btn-default letterButton">D</button>
+                <button class="btn btn-default letterButton">E</button>
+                <button class="btn btn-default letterButton">F</button>
+                <button class="btn btn-default letterButton">G</button>
+                <button class="btn btn-default letterButton">H</button>
+                <button class="btn btn-default letterButton">I</button>
+                <button class="btn btn-default letterButton">J</button>
+                <button class="btn btn-default letterButton">K</button>
+                <button class="btn btn-default letterButton">L</button>
+                <button class="btn btn-default letterButton">M</button>
+                <button class="btn btn-default letterButton">N</button>
+                <button class="btn btn-default letterButton">O</button>
+                <button class="btn btn-default letterButton">P</button>
+                <button class="btn btn-default letterButton">Q</button>
+                <button class="btn btn-default letterButton">R</button>
+                <button class="btn btn-default letterButton">S</button>
+                <button class="btn btn-default letterButton">T</button>
+                <button class="btn btn-default letterButton">U</button>
+                <button class="btn btn-default letterButton">V</button>
+                <button class="btn btn-default letterButton">W</button>
+                <button class="btn btn-default letterButton">X</button>
+                <button class="btn btn-default letterButton">Y</button>
+                <button class="btn btn-default letterButton">Z</button>
+            </div>
+        </div>
+        <div class="clearfix" />
+        <div class="form-group">
+            <input type="text" class="form-control col-md-3" id="tbGuessAll" />
+            <button class="btn btn-primary col-md-2" id="btnGuessAll">I know the word.</button>
+        </div>
+
     </div>
 </div>
 
@@ -73,7 +82,7 @@
 {
     <div>
         <h2 class="waitingForOpponent">Waiting for opponent</h2>
-        <table id="oponentsInfo" class="table-striped">
+        <table id="oponentsInfo" class="table table-striped">
             <thead>
                 <tr>
                     <th>Player</th>
@@ -274,6 +283,7 @@
                 if (updatedPlayer.NumberOfErrors == 5) {
                     imageFleName = 'loose';
                     setGameStateToInactive();
+                    updateImage(imageFleName);
                     return;
                 }
 
@@ -289,10 +299,12 @@
 
         function setGameStateToInactive() {
             $('.letterButton').prop('disabled', true);
+            $('#btnGuessAll').prop('disabled', true);
         }
 
         function setGameStateToActive() {
             $('.letterButton').prop('disabled', false);
+            $('#btnGuessAll').prop('disabled', false);
         }
 
         function getHidden() {

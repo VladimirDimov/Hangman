@@ -11,5 +11,7 @@
         public bool IsMultiplayer { get; set; }
 
         public string GameId { get; set; }
+
+        public string Description { get; set; }
     }
 }

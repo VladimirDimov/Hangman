@@ -40,18 +40,6 @@
             }
         }
 
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<UserStatistics>()
-        //        .HasKey(us => us.UserId);
-
-        //    modelBuilder.Entity<User>()
-        //        .HasOptional(u => u.UserStatistics)
-        //        .WithRequired(us => us.User);
-
-        //    base.OnModelCreating(modelBuilder);
-        //}
-
         private void ApplyAuditInfoRules()
         {
             // Approach via @julielerman: http://bit.ly/123661P
