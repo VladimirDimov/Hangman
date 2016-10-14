@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Hangman.Web.ViewModels.Games
+﻿namespace Hangman.Web.ViewModels.Games
 {
     public class MakeGuessRequestViewModel
     {

@@ -17,20 +17,6 @@
             context.Clients.Clients(connectionIds).updateGame();
         }
 
-        private IList<string> GetConnectionIds(IList<string> userIds)
-        {
-            var connectionIds = new List<string>();
-            foreach (var userId in userIds)
-            {
-                if (users.ContainsKey(userId))
-                {
-                    connectionIds.Add(users[userId]);
-                }
-            }
-
-            return connectionIds;
-        }
-
         public override Task OnConnected()
         {
             var userId = this.Context.User.Identity.GetUserId();
@@ -60,6 +46,20 @@
                     users.Add(userId, connectionId);
                 }
             }
+        }
+
+        private IList<string> GetConnectionIds(IList<string> userIds)
+        {
+            var connectionIds = new List<string>();
+            foreach (var userId in userIds)
+            {
+                if (users.ContainsKey(userId))
+                {
+                    connectionIds.Add(users[userId]);
+                }
+            }
+
+            return connectionIds;
         }
     }
 }

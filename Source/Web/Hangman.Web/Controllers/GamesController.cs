@@ -1,7 +1,6 @@
 ﻿namespace Hangman.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
     using Hangman.Services.Data.Contracts;
@@ -17,7 +16,6 @@
         private ICategoriesService categoriesService;
         private IWordsService wordsService;
         private IStatisticsService statisticsService;
-        private ActiveGamesManager gamesManager;
 
         public GamesController(
             ICategoriesService categoriesService,

@@ -4,12 +4,19 @@
     using System.Collections.Generic;
     using System.Linq;
     using Common;
-    using ViewModels.Games;
 
     public class ActiveGamesManager
     {
         private static Dictionary<string, ActiveGameModel> activeGames = new Dictionary<string, ActiveGameModel>();
         private static object activeGamesLocker = new object();
+
+        public Dictionary<string, ActiveGameModel> Games
+        {
+            get
+            {
+                return activeGames;
+            }
+        }
 
         public ActiveGameModel this[string id]
         {
@@ -21,14 +28,6 @@
                 }
 
                 return activeGames[id];
-            }
-        }
-
-        public Dictionary<string, ActiveGameModel> Games
-        {
-            get
-            {
-                return activeGames;
             }
         }
 
@@ -63,7 +62,7 @@
             {
                 Id = userId,
                 NumberOfErrors = 0,
-                OpenedPositions = GetInitialOpenedPositions(word),
+                OpenedPositions = this.GetInitialOpenedPositions(word),
                 Name = username,
                 NumberOfGuesses = 0
             };
@@ -73,21 +72,21 @@
                 playerModel
             };
 
+            var activeGameModel = new ActiveGameModel
+            {
+                GameId = Guid.NewGuid().ToString(),
+                Players = players,
+                Owner = players.First(),
+                IsMultiplayer = isMultiplayer,
+                Word = word.ToLower(),
+                Description = description,
+                GameStatus = isMultiplayer ? GameStatus.WaitingForOpponent : GameStatus.Active,
+                GameName = gameName
+            };
+
             lock (activeGamesLocker)
             {
-                activeGames.Add(
-                gameId,
-                new ActiveGameModel
-                {
-                    GameId = Guid.NewGuid().ToString(),
-                    Players = players,
-                    Owner = players.First(),
-                    IsMultiplayer = isMultiplayer,
-                    Word = word.ToLower(),
-                    Description = description,
-                    GameStatus = isMultiplayer ? GameStatus.WaitingForOpponent : GameStatus.Active,
-                    GameName = gameName
-                });
+                activeGames.Add(gameId, activeGameModel);
             }
 
             return gameId;
@@ -149,7 +148,7 @@
                 Id = playerId,
                 NumberOfErrors = 0,
                 NumberOfGuesses = 0,
-                OpenedPositions = GetInitialOpenedPositions(game.Word),
+                OpenedPositions = this.GetInitialOpenedPositions(game.Word),
                 Name = playerName
             });
 
@@ -235,7 +234,7 @@
             }
         }
 
-        private static IEnumerable<char> GetInitialOpenedPositions(string word)
+        private IEnumerable<char> GetInitialOpenedPositions(string word)
         {
             var positions = new char[word.Length];
             positions[0] = word[0];

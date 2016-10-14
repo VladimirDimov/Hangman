@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Hangman.Web.ActiveGames
+﻿namespace Hangman.Web.ActiveGames
 {
+    using System.Collections.Generic;
+
     public class ActiveGameModel
     {
         public string GameName { get; set; }

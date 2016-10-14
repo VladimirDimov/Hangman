@@ -237,7 +237,6 @@
     <Compile Include="ViewModels\Account\SendCodeViewModel.cs" />
     <Compile Include="ViewModels\Account\VerifyCodeViewModel.cs" />
     <Compile Include="ViewModels\Games\Index\CategoryViewModel.cs" />
-    <Compile Include="ViewModels\Games\Index\GamesIndexViewModel.cs" />
     <Compile Include="ViewModels\Games\GameType.cs" />
     <Compile Include="ViewModels\Games\Index\IndexViewModel.cs" />
     <Compile Include="ViewModels\Games\JoinGameViewModel.cs" />

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Hangman.Web.ActiveGames
+﻿namespace Hangman.Web.ActiveGames
 {
     public enum GameStatus
     {
