@@ -1,5 +1,6 @@
 ﻿namespace Hangman.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Web.Mvc;
     using Hubs;
@@ -17,8 +18,6 @@
 
         public ActionResult Index()
         {
-            var notifier = new Notifier();
-
             var statistics = this.statisticsService.All()
                 .Select(StatisticsViewModel.FromModel)
                 .OrderByDescending(x => x.NumberOfGamesWon)

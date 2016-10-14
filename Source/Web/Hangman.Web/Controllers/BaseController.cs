@@ -16,5 +16,14 @@
                 return AutoMapperConfig.Configuration.CreateMapper();
             }
         }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+#if !DEBUG
+            filterContext.Controller.ControllerContext.HttpContext.Response.Redirect($"/errors/Error500");
+#endif
+
+            base.OnException(filterContext);
+        }
     }
 }
